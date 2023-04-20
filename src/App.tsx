@@ -1,7 +1,7 @@
 import React from "react";
 // import logo from "./logo.svg";
 import "./App.css";
-import { PlayerSideObserver } from "./components/Player";
+import { GameBoard } from "./components/board/GameBoard";
 
 function App() {
   return (
@@ -20,8 +20,8 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <div style={{ backgroundColor: "black", height: "5px" }}></div>
-      <PlayerSideObserver></PlayerSideObserver>
+
+      <GameBoard></GameBoard>
     </div>
   );
 }

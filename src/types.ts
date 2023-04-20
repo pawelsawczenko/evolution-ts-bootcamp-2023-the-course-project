@@ -35,7 +35,7 @@ export type Rounds = 0 | 1 | 2;
 // maybe use Tuple for row and hand?
 export interface Row {
   rowItems: CardData[];
-  // score: number;
+  score: number;
 }
 
 export interface Player {
