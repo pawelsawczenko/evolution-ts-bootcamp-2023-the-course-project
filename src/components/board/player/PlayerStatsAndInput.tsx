@@ -6,6 +6,15 @@ import { gwentStore } from "../../../stores/GameStore";
 const PlayerStatsAndInput: React.FC = () => {
   const currentScore = gwentStore.gameBoard.player.roundScore;
   const roundsWon = gwentStore.gameBoard.player.roundsWon;
+  const isPlayerPass = gwentStore.isPlayerPass ? "passes" : "is playing";
+
+  // const currentlyChosenCard = gwentStore.cardToPlay;
+
+  const onClick = () => {
+    gwentStore.setIsPlayerPass();
+    // TODO: change when opponents logic will be implemented
+    gwentStore.setIsRoundWon();
+  };
 
   return (
     <div className="statistic player-statistic">
@@ -25,8 +34,11 @@ const PlayerStatsAndInput: React.FC = () => {
       </div>
 
       <div>
-        <button>pass</button>
+        <span> --- Player {isPlayerPass} </span>
+        <button onClick={onClick}>pass</button>
       </div>
+      {/* card that currently chosen special ability */}
+      <div></div>
     </div>
   );
 };

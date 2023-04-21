@@ -6,14 +6,20 @@ import React from "react";
 export const PlayerHandCell: React.FC<CardData> = (props: CardData) => {
   const [isClicked, setIsClicked] = React.useState(false);
   let selected =
-    isClicked && gwentStore.cardToPlay?.id === props.id ? "card-selected" : "";
+    isClicked &&
+    gwentStore.cardToPlay?.id === props.id &&
+    !gwentStore.isPlayerPass
+      ? "card-selected"
+      : "";
 
   const onCellClick = () => {
-    gwentStore.chooseCard(props);
-    if (gwentStore.cardToPlay?.id === props.id) {
-      setIsClicked(true);
-    } else {
-      setIsClicked(false);
+    if (!gwentStore.isPlayerPass) {
+      gwentStore.setCardToPlay(props);
+      if (gwentStore.cardToPlay?.id === props.id) {
+        setIsClicked(true);
+      } else {
+        setIsClicked(false);
+      }
     }
   };
 

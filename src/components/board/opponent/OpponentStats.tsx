@@ -6,6 +6,7 @@ import { gwentStore } from "../../../stores/GameStore";
 const OpponentStats: React.FC = () => {
   const currentScore = gwentStore.gameBoard.opponent.roundScore;
   const roundsWon = gwentStore.gameBoard.opponent.roundsWon;
+  const isOpponentPass = gwentStore.isOpponentPass ? "passes" : "is playing";
 
   return (
     <div className="statistic player-statistic">
@@ -22,6 +23,10 @@ const OpponentStats: React.FC = () => {
       <div className="current-score">
         <span>current score : </span>
         <span>{currentScore}</span>
+      </div>
+
+      <div>
+        <span> --- Opponent {isOpponentPass} </span>
       </div>
     </div>
   );
