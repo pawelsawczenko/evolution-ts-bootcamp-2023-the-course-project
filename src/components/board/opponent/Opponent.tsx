@@ -3,14 +3,12 @@ import { observer } from "mobx-react";
 import { CardData } from "../../../types";
 
 import "../row.css";
-import { OpponentHand } from "./OpponentHand";
 import { RowComponent } from "../Row";
 
 import { gwentStore } from "../../../stores/GameStore";
+import { OpponentHandObserver } from "./OpponentHand";
 
 const OpponentSide: React.FC = () => {
-  const hand: CardData[] = gwentStore.gameBoard.opponent.hand;
-
   const nearRow: CardData[] = gwentStore.gameBoard.opponent.nearRow.rowItems;
   const nearRowScore: number = gwentStore.gameBoard.opponent.nearRow.score;
 
@@ -19,7 +17,7 @@ const OpponentSide: React.FC = () => {
 
   return (
     <div className="opponent-side">
-      <OpponentHand rowItems={hand} score={0}></OpponentHand>
+      <OpponentHandObserver></OpponentHandObserver>
       <RowComponent rowItems={nearRow} score={nearRowScore}></RowComponent>
       <RowComponent rowItems={farRow} score={farRowScore}></RowComponent>
     </div>

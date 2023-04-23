@@ -21,7 +21,7 @@ export interface Card {
 }
 
 export interface Dealer {
-  deck: (Card | undefined)[];
+  deck: Card[];
 }
 export interface CardData {
   id: string;

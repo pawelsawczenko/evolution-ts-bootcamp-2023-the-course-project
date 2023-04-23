@@ -1,16 +1,17 @@
 import React from "react";
-import { Row } from "../../../types";
 import { PlayerHandCell } from "./PlayerHandCell";
 
 import "../row.css";
+import { gwentStore } from "../../../stores/GameStore";
+import { observer } from "mobx-react-lite";
 
-export const PlayerHand: React.FC<Row> = (props: Row) => {
-  const hand = props.rowItems;
+export const PlayerHand: React.FC = () => {
+  const numberOfDealerCards = gwentStore.gameBoard.player.dealer.deck.length;
 
   return (
     <div className="hand row-template">
       <div className="row">
-        {hand.map((item) => {
+        {gwentStore.gameBoard.player.hand.map((item) => {
           return (
             <PlayerHandCell
               key={item.id}
@@ -24,7 +25,10 @@ export const PlayerHand: React.FC<Row> = (props: Row) => {
       </div>
       <div className="dealer">
         <h2>dealer</h2>
+        <h3>{numberOfDealerCards}</h3>
       </div>
     </div>
   );
 };
+
+export const PlayerHandObserver = observer(PlayerHand);

@@ -39,6 +39,31 @@ const PlayerStatsAndInput: React.FC = () => {
       </div>
       {/* card that currently chosen special ability */}
       <div></div>
+      {/* testing */}
+      {/* TODO: delete when rounds flow will be implemented */}
+      <div>
+        <button
+          onClick={() => {
+            gwentStore.setInitialDealersCards();
+          }}
+        >
+          setInitialDealersCards
+        </button>
+        <button
+          onClick={() => {
+            gwentStore.drawCardsFromDealer(8);
+          }}
+        >
+          draw 8 Cards From Dealer
+        </button>
+        <button
+          onClick={() => {
+            gwentStore.drawCardsFromDealer(3);
+          }}
+        >
+          draw 3 Cards From Dealer
+        </button>
+      </div>
     </div>
   );
 };
