@@ -51,10 +51,10 @@ const PlayerStatsAndInput: React.FC = () => {
         </button>
         <button
           onClick={() => {
-            gwentStore.drawCardsFromDealer(8);
+            gwentStore.drawCardsFromDealer(10);
           }}
         >
-          draw 8 Cards From Dealer
+          draw 10 Cards From Dealer
         </button>
         <button
           onClick={() => {

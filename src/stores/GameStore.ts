@@ -61,7 +61,7 @@ class GwentStore {
     }
   }
 
-  drawCardsFromDealer(numberOfCards: 8 | 3) {
+  drawCardsFromDealer(numberOfCards: 10 | 3) {
     for (let i = numberOfCards; i > 0; i--) {
       // add card to opponent's hand
       const indexOfEmptyCardOpponent = this.gameBoard.opponent.hand.findIndex(

@@ -23,6 +23,12 @@ export const PlayerHandCell: React.FC<CardData> = (props: CardData) => {
     }
   };
 
+  React.useEffect(() => {
+    if (props.card === undefined) {
+      setIsClicked(false);
+    }
+  }, [props.card]);
+
   if (props.card === undefined) {
     return <div id={`cell-${props.x}-${props.y}`} className="empty-cell"></div>;
   } else {
