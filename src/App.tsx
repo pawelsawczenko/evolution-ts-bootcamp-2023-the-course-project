@@ -1,6 +1,8 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import logo from "./logo.svg";
 import "./App.css";
+import { Main } from "./components/main/Main";
 import { GameBoard } from "./components/board/GameBoard";
 
 function App() {
@@ -20,8 +22,13 @@ function App() {
           Learn React
         </a>
       </header> */}
-
-      <GameBoard></GameBoard>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="game" element={<GameBoard />} />
+        </Routes>
+      </BrowserRouter>
+      {/* <GameBoard></GameBoard> */}
     </div>
   );
 }

@@ -3,9 +3,11 @@
   --height-cell: calc(var(--width-cell) * 1.4);
   --suit-size-large: 48px;
   --suit-size-small: 12px;
+  --row-color: rgba(226, 226, 226, 0.5);
+  --hand-color: rgba(114, 89, 51, 0.5);
 }
 .row-template {
-  background-color: #e2e2e2;
+  background-color: var(--row-color);
   /* padding: 10px; */
   display: grid;
   grid-auto-flow: column;
@@ -67,6 +69,8 @@
 .suit {
   width: var(--suit-size-large);
   height: var(--suit-size-large);
+}
+.suit-center {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -102,7 +106,7 @@
 /* hand */
 .player-side .hand,
 .opponent-side .hand {
-  background-color: #725933;
+  background-color: var(--hand-color);
   /* padding: 10px; */
 }
 .dealer {

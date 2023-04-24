@@ -8,7 +8,7 @@ class GwentStore {
   isPlayerPass: boolean;
   isOpponentPass: boolean;
   isPlayerMoveFirst: boolean;
-  currentRound: 1 | 2 | 3;
+  currentRound: 0 | 1 | 2 | 3;
 
   constructor() {
     this.gameBoard = {
@@ -46,9 +46,19 @@ class GwentStore {
     this.isPlayerPass = false;
     this.isOpponentPass = false;
     this.isPlayerMoveFirst = false;
-    this.currentRound = 1;
+    this.currentRound = 0;
 
     makeAutoObservable(this);
+  }
+
+  setIsPlayerMoveFirst() {
+    // if num > 50 coin is red else coin is black
+    const num = Math.floor(Math.random() * 100);
+    if (num > 50) {
+      this.isPlayerMoveFirst = true;
+    } else {
+      this.isPlayerMoveFirst = false;
+    }
   }
 
   setInitialDealersCards() {

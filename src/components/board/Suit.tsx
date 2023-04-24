@@ -15,7 +15,11 @@ export const Suit: React.FC<Card> = (props: Card) => {
             src={Spades}
             alt={`suit ${props.suit}`}
           />
-          <img className="suit" src={Spades} alt={`suit ${props.suit}`} />
+          <img
+            className="suit suit-center"
+            src={Spades}
+            alt={`suit ${props.suit}`}
+          />
           <img className="suit-after" src={Spades} alt={`suit ${props.suit}`} />
         </>
       ) : props.suit === "Hearts" ? (
@@ -25,13 +29,21 @@ export const Suit: React.FC<Card> = (props: Card) => {
             src={Hearts}
             alt={`suit ${props.suit}`}
           />
-          <img className="suit" src={Hearts} alt={`suit ${props.suit}`} />
+          <img
+            className="suit suit-center"
+            src={Hearts}
+            alt={`suit ${props.suit}`}
+          />
           <img className="suit-after" src={Hearts} alt={`suit ${props.suit}`} />
         </>
       ) : props.suit === "Clubs" ? (
         <>
           <img className="suit-before" src={Clubs} alt={`suit ${props.suit}`} />
-          <img className="suit" src={Clubs} alt={`suit ${props.suit}`} />
+          <img
+            className="suit suit-center"
+            src={Clubs}
+            alt={`suit ${props.suit}`}
+          />
           <img className="suit-after" src={Clubs} alt={`suit ${props.suit}`} />
         </>
       ) : (
@@ -41,7 +53,11 @@ export const Suit: React.FC<Card> = (props: Card) => {
             src={Diamonds}
             alt={`suit ${props.suit}`}
           />
-          <img className="suit" src={Diamonds} alt={`suit ${props.suit}`} />
+          <img
+            className="suit suit-center"
+            src={Diamonds}
+            alt={`suit ${props.suit}`}
+          />
           <img
             className="suit-after"
             src={Diamonds}
