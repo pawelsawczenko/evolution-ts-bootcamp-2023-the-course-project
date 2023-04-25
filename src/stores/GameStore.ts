@@ -111,6 +111,52 @@ class GwentStore {
   setIsOpponentPass() {
     this.isOpponentPass = true;
   }
+
+  startNewRound() {
+    gwentStore.clearRows();
+    gwentStore.isOpponentPass = false;
+    gwentStore.isPlayerPass = false;
+    gwentStore.drawCardsFromDealer(3);
+  }
+
+  resetTheGame() {
+    this.gameBoard = {
+      opponent: {
+        hand: returnEmptyRow(5),
+        nearRow: {
+          rowItems: returnEmptyRow(4),
+          score: 0,
+        },
+        farRow: {
+          rowItems: returnEmptyRow(3),
+          score: 0,
+        },
+        dealer: { deck: [] },
+        roundScore: 0,
+        roundsWon: 0,
+      },
+      player: {
+        farRow: {
+          rowItems: returnEmptyRow(2),
+          score: 0,
+        },
+        nearRow: {
+          rowItems: returnEmptyRow(1),
+          score: 0,
+        },
+        hand: returnEmptyRow(0),
+        dealer: { deck: [] },
+        roundScore: 0,
+        roundsWon: 0,
+      },
+    };
+    this.cardToPlay = undefined;
+    this.moveToCell = undefined;
+    this.isPlayerPass = false;
+    this.isOpponentPass = false;
+    this.isPlayerMoveFirst = false;
+    this.currentRound = 0;
+  }
   // TODO: change when components will be implemented
   setIsRoundWon() {
     if (this.isPlayerPass && this.isOpponentPass) {
@@ -154,7 +200,6 @@ class GwentStore {
       this.opponentsMove();
     }
   }
-
   // for testing
   // DONE: add logic for random card in hand and random row to be choosen
   // TODO: add more advanced logic when card's percs and rounds flow will be implemented
@@ -226,6 +271,15 @@ class GwentStore {
     const chosenPlace =
       emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
     this.moveToCell = chosenPlace;
+  }
+
+  clearRows() {
+    // clear opponent's rows between rounds
+    this.gameBoard.opponent.nearRow.rowItems = returnEmptyRow(4);
+    this.gameBoard.opponent.farRow.rowItems = returnEmptyRow(3);
+    // clear player's rows between rounds
+    this.gameBoard.player.farRow.rowItems = returnEmptyRow(2);
+    this.gameBoard.player.nearRow.rowItems = returnEmptyRow(1);
   }
 }
 
@@ -501,35 +555,3 @@ function shuffleArr(cards: Card[]) {
 
   return cards;
 }
-
-// function returnFullRedHand(y: 0 | 5): CardData[] {
-//   return [
-//     { id: `0${y}`, x: 0, y: y, card: { rank: "5", suit: "Diamonds" } },
-//     { id: `1${y}`, x: 1, y: y, card: { rank: "A", suit: "Hearts" } },
-//     { id: `2${y}`, x: 2, y: y, card: { rank: "Q", suit: "Hearts" } },
-//     { id: `3${y}`, x: 3, y: y, card: { rank: "4", suit: "Diamonds" } },
-//     { id: `4${y}`, x: 4, y: y, card: { rank: "7", suit: "Hearts" } },
-//     { id: `5${y}`, x: 5, y: y, card: { rank: "10", suit: "Hearts" } },
-//     { id: `6${y}`, x: 6, y: y, card: { rank: "9", suit: "Diamonds" } },
-//     { id: `7${y}`, x: 7, y: y, card: { rank: "8", suit: "Hearts" } },
-//     { id: `8${y}`, x: 8, y: y, card: { rank: "6", suit: "Diamonds" } },
-//     { id: `9${y}`, x: 9, y: y, card: { rank: "3", suit: "Diamonds" } },
-//   ];
-// }
-
-// function returnFullBlackHand(y: 0 | 5): CardData[] {
-//   return [
-//     // { id: `0${y}`, x: 0, y: y, card: { rank: "2", suit: "Spades" } },
-//     { id: `0${y}`, x: 0, y: y, card: undefined },
-//     { id: `1${y}`, x: 1, y: y, card: { rank: "A", suit: "Clubs" } },
-//     { id: `2${y}`, x: 2, y: y, card: { rank: "Q", suit: "Clubs" } },
-//     { id: `3${y}`, x: 3, y: y, card: { rank: "4", suit: "Spades" } },
-//     { id: `4${y}`, x: 4, y: y, card: { rank: "2", suit: "Clubs" } },
-//     { id: `5${y}`, x: 5, y: y, card: { rank: "10", suit: "Spades" } },
-//     { id: `6${y}`, x: 6, y: y, card: { rank: "9", suit: "Clubs" } },
-//     { id: `7${y}`, x: 7, y: y, card: { rank: "8", suit: "Spades" } },
-//     { id: `8${y}`, x: 8, y: y, card: { rank: "6", suit: "Spades" } },
-//     // { id: `9${y}`, x: 9, y: y, card: { rank: "3", suit: "Clubs" } },
-//     { id: `9${y}`, x: 9, y: y, card: undefined },
-//   ];
-// }

@@ -1,3 +1,6 @@
+#gameboard-container {
+  position: relative;
+}
 .gameboard {
   display: grid;
   grid-template-columns: 1fr 1fr;

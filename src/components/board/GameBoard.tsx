@@ -7,6 +7,7 @@ import { PlayerStatsAndInputObserver } from "./player/PlayerStatsAndInput";
 
 import "./gameboard.css";
 import { gwentStore } from "../../stores/GameStore";
+import { PopUpContainerObserver } from "./pop-ups/PopUpContainer";
 
 export const GameBoard: React.FC = () => {
   const navigate = useNavigate();
@@ -19,12 +20,15 @@ export const GameBoard: React.FC = () => {
   });
 
   return (
-    <div className="gameboard">
-      <OpponentStatsObserver></OpponentStatsObserver>
-      <OpponentSideObserver></OpponentSideObserver>
+    <div id="gameboard-container">
+      <div className="gameboard">
+        <OpponentStatsObserver></OpponentStatsObserver>
+        <OpponentSideObserver></OpponentSideObserver>
 
-      <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
-      <PlayerSideObserver></PlayerSideObserver>
+        <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
+        <PlayerSideObserver></PlayerSideObserver>
+      </div>
+      <PopUpContainerObserver></PopUpContainerObserver>
     </div>
   );
 };
