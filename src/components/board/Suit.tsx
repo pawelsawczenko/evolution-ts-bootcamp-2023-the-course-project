@@ -5,6 +5,7 @@ import Diamonds from "../../assets/Diamonds.svg";
 import Clubs from "../../assets/Clubs.svg";
 import Spades from "../../assets/Spades.svg";
 
+// TODO: MAP suits props
 export const Suit: React.FC<Card> = (props: Card) => {
   return (
     <>

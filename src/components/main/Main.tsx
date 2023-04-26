@@ -29,8 +29,13 @@ export const Main: React.FC = () => {
       </div>
       {/* TODO: change when rules component will be implemented */}
       <div className="rules-testing">
-        <p>Greater score win the round. Whoever wins 2 rounds wins the game.</p>
-        <p>Two cards with same rank in row one by one give +2 to row score.</p>
+        <p>
+          Greater score wins the round. Whoever wins 2 rounds wins the game.
+        </p>
+        <p>Two cards with the same next to each other give +2 to row score.</p>
+        <p>Royal Flush - 10 J Q K A of any suit - give +7 to row score.</p>
+        <p>Straight - 6 7 8 9 10 of any suit - give +5 to row score.</p>
+        <p>Baby Straight - A 2 3 4 5 of any suit - give +3 to row score.</p>
       </div>
     </div>
   );

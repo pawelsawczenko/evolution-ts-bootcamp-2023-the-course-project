@@ -115,8 +115,13 @@ class GwentStore {
 
   startNewRound() {
     gwentStore.clearRows();
+    gwentStore.gameBoard.opponent.roundScore = 0;
+    gwentStore.gameBoard.player.roundScore = 0;
     gwentStore.isOpponentPass = false;
     gwentStore.isPlayerPass = false;
+    //
+    // TODO: Add changes to round when start the next round. IF OPPONENT MOVES FIRTS DO MOVES !
+    //
     gwentStore.currentRound += 1;
     gwentStore.drawCardsFromDealer(3);
   }
@@ -210,10 +215,12 @@ class GwentStore {
   // DONE: add more advanced logic when rounds flow will be implemented
   // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
+    // TODO: findIndex to find
     if (
-      this.gameBoard.opponent.hand.findIndex(
-        (item) => item.card !== undefined
-      ) === -1
+      // this.gameBoard.opponent.hand.findIndex(
+      //   (item) => item.card !== undefined
+      // ) === -1
+      !this.gameBoard.opponent.hand.find((item) => item.card !== undefined)
     ) {
       // opponent doesn't have enough cards in hand
       // opponent passes
@@ -370,6 +377,44 @@ function calcScore(row: CardData[]): number {
       if (rank === arrOfRanks[index - 1]) {
         // if row has pair one by one, add 2 to score
         sum += 2;
+      }
+    }
+    if (index >= 4) {
+      const royalFlush: CardRanking[] = ["10", "J", "Q", "K", "A"];
+      const straight: CardRanking[] = ["6", "7", "8", "9", "10"];
+      const babyStraight: CardRanking[] = ["A", "2", "3", "4", "5"];
+
+      if (
+        rank === royalFlush[4] &&
+        arrOfRanks[index - 1] === royalFlush[3] &&
+        arrOfRanks[index - 2] === royalFlush[2] &&
+        arrOfRanks[index - 3] === royalFlush[1] &&
+        arrOfRanks[index - 4] === royalFlush[0]
+      ) {
+        // if row has Royal Flush, add 7 to score
+        sum += 7;
+      }
+
+      if (
+        rank === straight[4] &&
+        arrOfRanks[index - 1] === straight[3] &&
+        arrOfRanks[index - 2] === straight[2] &&
+        arrOfRanks[index - 3] === straight[1] &&
+        arrOfRanks[index - 4] === straight[0]
+      ) {
+        // if row has "Straight", add 5 to score
+        sum += 5;
+      }
+
+      if (
+        rank === babyStraight[4] &&
+        arrOfRanks[index - 1] === babyStraight[3] &&
+        arrOfRanks[index - 2] === babyStraight[2] &&
+        arrOfRanks[index - 3] === babyStraight[1] &&
+        arrOfRanks[index - 4] === babyStraight[0]
+      ) {
+        // if row has "Baby Straight", add 3 to score
+        sum += 3;
       }
     }
   });

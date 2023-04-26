@@ -4,6 +4,7 @@ import { gwentStore } from "../../stores/GameStore";
 import React from "react";
 
 export const Cell: React.FC<CardData> = (props: CardData) => {
+  // TODO: all on click (useCallback, useMemo)?
   const onCellClick = () => {
     gwentStore.moveCard(props);
   };
