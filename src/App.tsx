@@ -28,7 +28,6 @@ function App() {
           <Route path="game" element={<GameBoard />} />
         </Routes>
       </BrowserRouter>
-      {/* <GameBoard></GameBoard> */}
     </div>
   );
 }

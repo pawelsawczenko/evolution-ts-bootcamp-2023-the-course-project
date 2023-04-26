@@ -9,17 +9,17 @@ const OpponentStats: React.FC = () => {
   const isOpponentPass = gwentStore.isOpponentPass ? "passes" : "is playing";
 
   return (
-    <div className="statistic player-statistic">
+    <div className="stats opponent-statistic">
       {/* whose turn it is  */}
 
-      {/* players name */}
+      {/* opponent's name */}
       <h2>Opponent</h2>
       {/* how many rounds have been won */}
       <div className="rounds-score">
         <span>rounds won: </span>
         <span>{roundsWon}</span>
       </div>
-      {/* current player's score */}
+      {/* current opponent's score */}
       <div className="current-score">
         <span>current score : </span>
         <span>{currentScore}</span>

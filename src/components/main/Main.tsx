@@ -19,12 +19,19 @@ export const Main: React.FC = () => {
     navigate("game", { replace: false });
   };
   return (
-    <div id="main">
-      <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
-      <img className="suit" src={Hearts} alt={`suit Hearts`} />
-      <button onClick={startGame}>Start Game</button>
-      <img className="suit" src={Spades} alt={`suit Spades`} />
-      <img className="suit" src={Clubs} alt={`suit Clubs`} />
+    <div>
+      <div id="main">
+        <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
+        <img className="suit" src={Hearts} alt={`suit Hearts`} />
+        <button onClick={startGame}>Start Game</button>
+        <img className="suit" src={Spades} alt={`suit Spades`} />
+        <img className="suit" src={Clubs} alt={`suit Clubs`} />
+      </div>
+      {/* TODO: change when rules component will be implemented */}
+      <div className="rules-testing">
+        <p>Greater score win the round. Whoever wins 2 rounds wins the game.</p>
+        <p>Two cards with same rank in row one by one give +2 to row score.</p>
+      </div>
     </div>
   );
 };

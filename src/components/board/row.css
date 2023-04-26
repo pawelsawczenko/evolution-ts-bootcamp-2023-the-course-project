@@ -29,6 +29,10 @@
   grid-template-columns: repeat(10, 1fr);
   /* grid-row-gap: 2em; */
 }
+.player-side,
+.opponent-side {
+  border: 3px solid darkolivegreen;
+}
 .empty-cell {
   width: var(--width-cell);
   height: var(--height-cell);

@@ -1,8 +1,17 @@
 #gameboard-container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 .gameboard {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+}
+.stats {
+  padding-left: 10px;
+  color: aliceblue;
+  border: solid 3px darkblue;
 }

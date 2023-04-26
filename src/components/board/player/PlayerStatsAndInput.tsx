@@ -12,15 +12,13 @@ const PlayerStatsAndInput: React.FC = () => {
 
   const onClick = () => {
     gwentStore.setIsPlayerPass();
-    // TODO: change when opponents logic will be implemented
-    gwentStore.setIsRoundWon();
   };
 
   return (
-    <div className="statistic player-statistic">
+    <div className="stats player-statistic">
       {/* whose turn it is  */}
 
-      {/* players name */}
+      {/* player's name */}
       <h2>Player</h2>
       {/* how many rounds have been won */}
       <div className="rounds-score">
@@ -39,31 +37,6 @@ const PlayerStatsAndInput: React.FC = () => {
       </div>
       {/* card that currently chosen special ability */}
       <div></div>
-      {/* testing */}
-      {/* TODO: delete when rounds flow will be implemented */}
-      <div>
-        <button
-          onClick={() => {
-            gwentStore.setInitialDealersCards();
-          }}
-        >
-          setInitialDealersCards
-        </button>
-        <button
-          onClick={() => {
-            gwentStore.drawCardsFromDealer(10);
-          }}
-        >
-          draw 10 Cards From Dealer
-        </button>
-        <button
-          onClick={() => {
-            gwentStore.drawCardsFromDealer(3);
-          }}
-        >
-          draw 3 Cards From Dealer
-        </button>
-      </div>
     </div>
   );
 };

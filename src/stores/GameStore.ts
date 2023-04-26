@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Card, CardData, GameBoard } from "../types";
+import { Card, CardRanking, CardData, GameBoard } from "../types";
 
 class GwentStore {
   gameBoard: GameBoard;
@@ -101,11 +101,12 @@ class GwentStore {
   }
 
   setIsPlayerPass() {
-    // this.isPlayerPass = true;
+    this.isPlayerPass = true;
     // for testing
     // TODO: change to value above when rounds flow will be implemented
-    this.isPlayerPass = !this.isPlayerPass;
+    // this.isPlayerPass = !this.isPlayerPass;
     this.opponentsMove();
+    this.checkIsRoundWon();
   }
 
   setIsOpponentPass() {
@@ -116,6 +117,7 @@ class GwentStore {
     gwentStore.clearRows();
     gwentStore.isOpponentPass = false;
     gwentStore.isPlayerPass = false;
+    gwentStore.currentRound += 1;
     gwentStore.drawCardsFromDealer(3);
   }
 
@@ -158,16 +160,20 @@ class GwentStore {
     this.currentRound = 0;
   }
   // TODO: change when components will be implemented
-  setIsRoundWon() {
+  checkIsRoundWon() {
     if (this.isPlayerPass && this.isOpponentPass) {
       if (
         this.gameBoard.player.roundScore > this.gameBoard.opponent.roundScore
       ) {
-        this.gameBoard.player.roundsWon += 1;
+        this.gameBoard.player.roundsWon =
+          this.gameBoard.player.roundsWon === 0 ? 1 : 2;
+        console.log("player won", this.gameBoard.player.roundsWon);
       } else if (
         this.gameBoard.player.roundScore < this.gameBoard.opponent.roundScore
       ) {
-        this.gameBoard.opponent.roundsWon += 1;
+        this.gameBoard.opponent.roundsWon =
+          this.gameBoard.opponent.roundsWon === 0 ? 1 : 2;
+        console.log("op won", this.gameBoard.opponent.roundsWon);
       } else {
         console.log("DRAW");
       }
@@ -200,17 +206,48 @@ class GwentStore {
       this.opponentsMove();
     }
   }
-  // for testing
   // DONE: add logic for random card in hand and random row to be choosen
-  // TODO: add more advanced logic when card's percs and rounds flow will be implemented
+  // DONE: add more advanced logic when rounds flow will be implemented
+  // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
     if (
       this.gameBoard.opponent.hand.findIndex(
         (item) => item.card !== undefined
       ) === -1
     ) {
+      // opponent doesn't have enough cards in hand
       // opponent passes
       this.setIsOpponentPass();
+      console.log(
+        "out of cards. is op won?",
+        this.gameBoard.opponent.roundScore
+      );
+    } else if (
+      this.isPlayerPass &&
+      this.gameBoard.opponent.roundScore >= this.gameBoard.player.roundScore
+    ) {
+      // player passed
+      // opponent has enough score to win or draw the round
+      // opponent passes
+      this.setIsOpponentPass();
+      console.log(
+        "player pass. score op greater or draw. is op won?",
+        this.gameBoard.opponent.roundScore
+      );
+    } else if (
+      this.isPlayerPass &&
+      this.gameBoard.opponent.roundScore < this.gameBoard.player.roundScore
+    ) {
+      // opponent doesn't have enough score to win or draw the round
+      // player passed make a move
+      this.opponentRandomMove();
+
+      this.playCards("opponent", "opponent");
+
+      console.log("make another move", this.gameBoard.opponent.roundScore);
+      // recursion
+      // checking if the opponent has enough score to pass the round or not
+      this.opponentsMove();
     } else {
       // opponent makes a move
       this.opponentRandomMove();
@@ -276,10 +313,14 @@ class GwentStore {
   clearRows() {
     // clear opponent's rows between rounds
     this.gameBoard.opponent.nearRow.rowItems = returnEmptyRow(4);
+    this.gameBoard.opponent.nearRow.score = 0;
     this.gameBoard.opponent.farRow.rowItems = returnEmptyRow(3);
+    this.gameBoard.opponent.farRow.score = 0;
     // clear player's rows between rounds
     this.gameBoard.player.farRow.rowItems = returnEmptyRow(2);
+    this.gameBoard.player.farRow.score = 0;
     this.gameBoard.player.nearRow.rowItems = returnEmptyRow(1);
+    this.gameBoard.player.nearRow.score = 0;
   }
 }
 
@@ -303,9 +344,12 @@ function returnEmptyRow(y: 0 | 1 | 2 | 3 | 4 | 5): CardData[] {
 
 function calcScore(row: CardData[]): number {
   let sum = 0;
+  let arrOfRanks: CardRanking[] = [];
 
   row.forEach((item) => {
     if (item.card !== undefined) {
+      arrOfRanks.push(item.card.rank);
+
       switch (item.card.rank) {
         case "A":
           sum += 11;
@@ -317,6 +361,15 @@ function calcScore(row: CardData[]): number {
           break;
         default:
           sum += +item.card.rank;
+      }
+    }
+  });
+
+  arrOfRanks.forEach((rank, index) => {
+    if (index !== 0) {
+      if (rank === arrOfRanks[index - 1]) {
+        // if row has pair one by one, add 2 to score
+        sum += 2;
       }
     }
   });
