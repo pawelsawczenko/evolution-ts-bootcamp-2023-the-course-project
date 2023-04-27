@@ -6,12 +6,13 @@ import { gwentStore } from "../../../stores/GameStore";
 import { observer } from "mobx-react-lite";
 
 export const PlayerHand: React.FC = () => {
+  const { hand } = gwentStore.gameBoard.player;
   const numberOfDealerCards = gwentStore.gameBoard.player.dealer.deck.length;
 
   return (
     <div className="hand row-template">
       <div className="row">
-        {gwentStore.gameBoard.player.hand.map((item) => {
+        {hand.map((item) => {
           return (
             <PlayerHandCell
               key={item.id}

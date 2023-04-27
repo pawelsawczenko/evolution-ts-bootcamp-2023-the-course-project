@@ -5,67 +5,33 @@ import Diamonds from "../../assets/Diamonds.svg";
 import Clubs from "../../assets/Clubs.svg";
 import Spades from "../../assets/Spades.svg";
 
-// TODO: MAP suits props
-export const Suit: React.FC<Card> = (props: Card) => {
+const MAP = {
+  Spades: {
+    src: Spades,
+    alt: "suit Spades",
+  },
+  Hearts: {
+    src: Hearts,
+    alt: "suit Hearts",
+  },
+  Clubs: {
+    src: Clubs,
+    alt: "suit Clubs",
+  },
+  Diamonds: {
+    src: Diamonds,
+    alt: "suit Diamonds",
+  },
+};
+
+export const Suit: React.FC<Card> = ({ suit }) => {
+  const { src, alt } = MAP[suit];
+
   return (
     <>
-      {props.suit === "Spades" ? (
-        <>
-          <img
-            className="suit-before"
-            src={Spades}
-            alt={`suit ${props.suit}`}
-          />
-          <img
-            className="suit suit-center"
-            src={Spades}
-            alt={`suit ${props.suit}`}
-          />
-          <img className="suit-after" src={Spades} alt={`suit ${props.suit}`} />
-        </>
-      ) : props.suit === "Hearts" ? (
-        <>
-          <img
-            className="suit-before"
-            src={Hearts}
-            alt={`suit ${props.suit}`}
-          />
-          <img
-            className="suit suit-center"
-            src={Hearts}
-            alt={`suit ${props.suit}`}
-          />
-          <img className="suit-after" src={Hearts} alt={`suit ${props.suit}`} />
-        </>
-      ) : props.suit === "Clubs" ? (
-        <>
-          <img className="suit-before" src={Clubs} alt={`suit ${props.suit}`} />
-          <img
-            className="suit suit-center"
-            src={Clubs}
-            alt={`suit ${props.suit}`}
-          />
-          <img className="suit-after" src={Clubs} alt={`suit ${props.suit}`} />
-        </>
-      ) : (
-        <>
-          <img
-            className="suit-before"
-            src={Diamonds}
-            alt={`suit ${props.suit}`}
-          />
-          <img
-            className="suit suit-center"
-            src={Diamonds}
-            alt={`suit ${props.suit}`}
-          />
-          <img
-            className="suit-after"
-            src={Diamonds}
-            alt={`suit ${props.suit}`}
-          />
-        </>
-      )}
+      <img className="suit-before" src={src} alt={alt} />
+      <img className="suit suit-center" src={src} alt={alt} />
+      <img className="suit-after" src={src} alt={alt} />
     </>
   );
 };

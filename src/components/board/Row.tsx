@@ -4,15 +4,11 @@ import { Cell } from "./Cell";
 
 import "./row.css";
 
-export const RowComponent: React.FC<Row> = (props: Row) => {
-  const row = props.rowItems;
-
-  const score = props.score;
-
+export const RowComponent: React.FC<Row> = ({ rowItems, score }) => {
   return (
     <div className="row-template">
       <div className="row">
-        {row.map((item) => {
+        {rowItems.map((item) => {
           return (
             <Cell
               key={item.id}

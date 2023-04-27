@@ -7,7 +7,7 @@ interface PopUpProps {
   setPopUpHidden: React.Dispatch<SetStateAction<string>>;
 }
 
-export const PopUp: React.FC<PopUpProps> = (props: PopUpProps) => {
+export const PopUp: React.FC<PopUpProps> = ({ setPopUpHidden }) => {
   const navigate = useNavigate();
 
   const isGameWon =
@@ -26,19 +26,20 @@ export const PopUp: React.FC<PopUpProps> = (props: PopUpProps) => {
       ? `You won the round`
       : "Draw!";
 
-  const onClickPopUp = () => {
+  // TODO: all on click (useCallback, useMemo)?
+  const onClickPopUp = React.useCallback(() => {
     if (
       gwentStore.gameBoard.opponent.roundsWon === 2 ||
       gwentStore.gameBoard.player.roundsWon === 2
     ) {
       gwentStore.resetTheGame();
-      props.setPopUpHidden("pop-up-hidden");
+      setPopUpHidden("pop-up-hidden");
       navigate("/", { replace: false });
     } else {
       gwentStore.startNewRound();
-      props.setPopUpHidden("pop-up-hidden");
+      setPopUpHidden("pop-up-hidden");
     }
-  };
+  }, []);
 
   return (
     <div className="pop-up">

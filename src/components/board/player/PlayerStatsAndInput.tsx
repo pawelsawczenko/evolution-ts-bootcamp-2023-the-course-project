@@ -4,15 +4,16 @@ import { observer } from "mobx-react";
 import { gwentStore } from "../../../stores/GameStore";
 
 const PlayerStatsAndInput: React.FC = () => {
-  const currentScore = gwentStore.gameBoard.player.roundScore;
-  const roundsWon = gwentStore.gameBoard.player.roundsWon;
+  const { roundScore, roundsWon } = gwentStore.gameBoard.player;
+  // const currentScore = gwentStore.gameBoard.player.roundScore;
+  // const roundsWon = gwentStore.gameBoard.player.roundsWon;
   const isPlayerPass = gwentStore.isPlayerPass ? "passes" : "is playing";
 
   // const currentlyChosenCard = gwentStore.cardToPlay;
-
-  const onClick = () => {
+  // TODO: all on click (useCallback, useMemo)?
+  const onClick = React.useCallback(() => {
     gwentStore.setIsPlayerPass();
-  };
+  }, []);
 
   return (
     <div className="stats player-statistic">
@@ -27,8 +28,8 @@ const PlayerStatsAndInput: React.FC = () => {
       </div>
       {/* current player's score */}
       <div className="current-score">
-        <span>current score : </span>
-        <span>{currentScore}</span>
+        <span>round score : </span>
+        <span>{roundScore}</span>
       </div>
 
       <div>

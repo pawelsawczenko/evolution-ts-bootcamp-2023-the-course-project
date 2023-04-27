@@ -14,6 +14,7 @@ export const Main: React.FC = () => {
 
   const startGame = () => {
     gwentStore.currentRound = 1;
+    gwentStore.setIsPlayerMoveFirst();
     gwentStore.setInitialDealersCards();
     gwentStore.drawCardsFromDealer(10);
     navigate("game", { replace: false });

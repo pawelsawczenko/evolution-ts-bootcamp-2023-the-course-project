@@ -4,8 +4,9 @@ import { observer } from "mobx-react";
 import { gwentStore } from "../../../stores/GameStore";
 
 const OpponentStats: React.FC = () => {
-  const currentScore = gwentStore.gameBoard.opponent.roundScore;
-  const roundsWon = gwentStore.gameBoard.opponent.roundsWon;
+  const { roundScore, roundsWon } = gwentStore.gameBoard.opponent;
+  // const currentScore = gwentStore.gameBoard.opponent.roundScore;
+  // const roundsWon = gwentStore.gameBoard.opponent.roundsWon;
   const isOpponentPass = gwentStore.isOpponentPass ? "passes" : "is playing";
 
   return (
@@ -21,8 +22,8 @@ const OpponentStats: React.FC = () => {
       </div>
       {/* current opponent's score */}
       <div className="current-score">
-        <span>current score : </span>
-        <span>{currentScore}</span>
+        <span>round score : </span>
+        <span>{roundScore}</span>
       </div>
 
       <div>

@@ -3,44 +3,42 @@ import { Suit } from "../Suit";
 import { gwentStore } from "../../../stores/GameStore";
 import React from "react";
 
-export const PlayerHandCell: React.FC<CardData> = (props: CardData) => {
+export const PlayerHandCell: React.FC<CardData> = ({ id, card, x, y }) => {
   const [isClicked, setIsClicked] = React.useState(false);
   let selected =
-    isClicked &&
-    gwentStore.cardToPlay?.id === props.id &&
-    !gwentStore.isPlayerPass
+    isClicked && gwentStore.cardToPlay?.id === id && !gwentStore.isPlayerPass
       ? "card-selected"
       : "";
 
-  const onCellClick = () => {
+  const onCellClick = React.useCallback(() => {
     if (!gwentStore.isPlayerPass) {
-      gwentStore.setCardToPlay(props);
-      if (gwentStore.cardToPlay?.id === props.id) {
+      gwentStore.setCardToPlay({ id, card, x, y });
+      if (gwentStore.cardToPlay?.id === id) {
         setIsClicked(true);
       } else {
         setIsClicked(false);
       }
     }
-  };
+  }, [card, id, x, y]);
 
   React.useEffect(() => {
-    if (props.card === undefined) {
+    if (card === undefined) {
       setIsClicked(false);
     }
-  }, [props.card]);
+  }, [card]);
 
-  if (props.card === undefined) {
-    return <div id={`cell-${props.x}-${props.y}`} className="empty-cell"></div>;
+  if (card === undefined) {
+    return <div id={`cell-${x}-${y}`} className="empty-cell"></div>;
   } else {
     return (
       <div
-        id={`cell-${props.x}-${props.y}`}
-        className={`card ${props.card.suit} ${selected}`}
+        id={`cell-${x}-${y}`}
+        className={`card ${card.suit} ${selected}`}
         onClick={onCellClick}
       >
-        <span className="rank rank-before">{props.card.rank}</span>
-        <Suit suit={props.card.suit} rank={props.card.rank}></Suit>
-        <span className="rank rank-after">{props.card.rank}</span>
+        <span className="rank rank-before">{card.rank}</span>
+        <Suit suit={card.suit} rank={card.rank}></Suit>
+        <span className="rank rank-after">{card.rank}</span>
       </div>
     );
   }

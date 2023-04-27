@@ -3,29 +3,26 @@ import { Suit } from "./Suit";
 import { gwentStore } from "../../stores/GameStore";
 import React from "react";
 
-export const Cell: React.FC<CardData> = (props: CardData) => {
+export const Cell: React.FC<CardData> = ({ id, card, x, y }) => {
   // TODO: all on click (useCallback, useMemo)?
-  const onCellClick = () => {
-    gwentStore.moveCard(props);
-  };
+  const onCellClick = React.useCallback(() => {
+    gwentStore.moveCard({ id, card, x, y });
+  }, [id, card, x, y]);
 
-  if (props.card === undefined) {
+  if (card === undefined) {
     return (
       <div
-        id={`cell-${props.x}-${props.y}`}
+        id={`cell-${x}-${y}`}
         className="empty-cell"
         onClick={onCellClick}
       ></div>
     );
   } else {
     return (
-      <div
-        id={`cell-${props.x}-${props.y}`}
-        className={`card ${props.card.suit}`}
-      >
-        <span className="rank rank-before">{props.card.rank}</span>
-        <Suit suit={props.card.suit} rank={props.card.rank}></Suit>
-        <span className="rank rank-after">{props.card.rank}</span>
+      <div id={`cell-${x}-${y}`} className={`card ${card.suit}`}>
+        <span className="rank rank-before">{card.rank}</span>
+        <Suit suit={card.suit} rank={card.rank}></Suit>
+        <span className="rank rank-after">{card.rank}</span>
       </div>
     );
   }
