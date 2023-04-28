@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { OpponentSideObserver } from "./opponent/Opponent";
+// import { OpponentSideObserver } from "./opponent/Opponent";
 import { OpponentStatsObserver } from "./opponent/OpponentStats";
-import { PlayerSideObserver } from "./player/Player";
+// import { PlayerSideObserver } from "./player/Player";
 import { PlayerStatsAndInputObserver } from "./player/PlayerStatsAndInput";
+import { BoardSideObserver } from "./BoardSide";
 
 import "./gameboard.css";
 import { gwentStore } from "../../stores/GameStore";
@@ -22,11 +23,15 @@ export const GameBoard: React.FC = () => {
   return (
     <div id="gameboard-container">
       <div className="gameboard">
-        <OpponentStatsObserver></OpponentStatsObserver>
+        {/* <OpponentStatsObserver></OpponentStatsObserver>
         <OpponentSideObserver></OpponentSideObserver>
 
         <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
-        <PlayerSideObserver></PlayerSideObserver>
+        <PlayerSideObserver></PlayerSideObserver> */}
+        <OpponentStatsObserver></OpponentStatsObserver>
+        <BoardSideObserver whoseSide="opponent"></BoardSideObserver>
+        <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
+        <BoardSideObserver whoseSide="player"></BoardSideObserver>
       </div>
       <PopUpContainerObserver></PopUpContainerObserver>
     </div>

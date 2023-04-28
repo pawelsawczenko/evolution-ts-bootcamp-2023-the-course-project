@@ -11,9 +11,16 @@ export type CardRanking =
   | "5"
   | "4"
   | "3"
-  | "2";
+  | "2"
+  | "Joker";
 
-export type CardSuit = "Hearts" | "Diamonds" | "Clubs" | "Spades";
+export type CardSuit =
+  | "Hearts"
+  | "Diamonds"
+  | "Clubs"
+  | "Spades"
+  | "JokerRed"
+  | "JokerBlack";
 
 export interface Card {
   rank: CardRanking;

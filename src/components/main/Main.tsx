@@ -33,10 +33,17 @@ export const Main: React.FC = () => {
         <p>
           Greater score wins the round. Whoever wins 2 rounds wins the game.
         </p>
+        <p>Score:</p>
         <p>Two cards with the same next to each other give +2 to row score.</p>
         <p>Royal Flush - 10 J Q K A of any suit - give +7 to row score.</p>
         <p>Straight - 6 7 8 9 10 of any suit - give +5 to row score.</p>
         <p>Baby Straight - A 2 3 4 5 of any suit - give +3 to row score.</p>
+        <p>Cards with perks:</p>
+        <p>
+          Joker can be placed only on the side of the opponent. It will add +10
+          to opponent score, but give you 2 random cards from dealer if he has
+          any.
+        </p>
       </div>
     </div>
   );

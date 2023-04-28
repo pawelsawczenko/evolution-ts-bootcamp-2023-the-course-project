@@ -3,6 +3,8 @@
   --height-cell: calc(var(--width-cell) * 1.4);
   --suit-size-large: 48px;
   --suit-size-small: 12px;
+  --joker-size-width-large: 80px;
+  --joker-size-height-large: calc(var(--joker-size-width-large) * 1.5);
   --row-color: rgba(226, 226, 226, 0.5);
   --hand-color: rgba(114, 89, 51, 0.5);
 }
@@ -51,6 +53,7 @@
   border-radius: 0.5em;
   box-shadow: 0.2em 0.2em 1.2em rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: hidden;
 }
 .hand-template .card:hover {
   transform: scale(1.1);
@@ -94,9 +97,18 @@
   right: 10%;
   bottom: 22%;
 }
+.joker {
+  width: var(--joker-size-width-large);
+  height: var(--joker-size-height-large);
+}
+.JokerRed .rank,
+.JokerBlack .rank {
+  color: rgba(255, 255, 255, 0.1);
+}
 .rank {
   font-weight: bold;
   position: absolute;
+  font-size: 20px;
 }
 .rank-before {
   left: 10%;

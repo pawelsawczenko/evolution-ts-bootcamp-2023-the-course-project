@@ -199,6 +199,7 @@ class GwentStore {
 
   moveCard(placeToMove: CardData) {
     if (
+      // for cards without perks
       placeToMove.card === undefined &&
       placeToMove.y < 3 &&
       this.cardToPlay !== undefined
@@ -209,19 +210,43 @@ class GwentStore {
       //
       this.playCards("player", "player");
       this.opponentsMove();
+    } else if (
+      // for Joker
+      placeToMove.card === undefined &&
+      placeToMove.y > 2 &&
+      this.cardToPlay?.card?.rank === "Joker"
+    ) {
+      // place card on the field
+      this.moveToCell = placeToMove;
+      console.log("place joker", this.moveToCell.x, this.moveToCell.y);
+      this.playCards("opponent", "player");
+      // use perk. 2 cards to hand
+      this.useJokerPerk("player");
+      this.opponentsMove();
+    }
+  }
+
+  useJokerPerk(whoPlays: "opponent" | "player") {
+    for (let i = 2; i > 0; i--) {
+      const indexOfEmptyCardPlayer = this.gameBoard[whoPlays].hand.findIndex(
+        (item) => item.card === undefined
+      );
+      if (indexOfEmptyCardPlayer !== -1) {
+        this.gameBoard[whoPlays].hand[indexOfEmptyCardPlayer].card = {
+          rank: this.gameBoard[whoPlays].dealer.deck[0].rank,
+          suit: this.gameBoard[whoPlays].dealer.deck[0].suit,
+        };
+
+        this.gameBoard[whoPlays].dealer.deck.splice(0, 1);
+      }
     }
   }
   // DONE: add logic for random card in hand and random row to be choosen
   // DONE: add more advanced logic when rounds flow will be implemented
   // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
-    // TODO: findIndex to find
-    if (
-      // this.gameBoard.opponent.hand.findIndex(
-      //   (item) => item.card !== undefined
-      // ) === -1
-      !this.gameBoard.opponent.hand.find((item) => item.card !== undefined)
-    ) {
+    // DONE: findIndex to find
+    if (!this.gameBoard.opponent.hand.find((item) => item.card !== undefined)) {
       // opponent doesn't have enough cards in hand
       // opponent passes
       this.setIsOpponentPass();
@@ -257,9 +282,25 @@ class GwentStore {
       this.opponentsMove();
     } else {
       // opponent makes a move
-      this.opponentRandomMove();
 
-      this.playCards("opponent", "opponent");
+      if (
+        this.gameBoard.opponent.hand.find(
+          (item) => item.card !== undefined && item.card.rank === "Joker"
+        ) &&
+        this.gameBoard.opponent.hand.filter((item) => item.card !== undefined)
+          .length < 7
+      ) {
+        // JOKER
+        this.opponentJokerMove();
+        this.playCards("player", "opponent");
+        // use perk. 2 cards to hand
+        this.useJokerPerk("opponent");
+      } else {
+        // RANDOM
+        this.opponentRandomMove();
+
+        this.playCards("opponent", "opponent");
+      }
     }
   }
 
@@ -298,9 +339,9 @@ class GwentStore {
   }
 
   opponentRandomMove() {
-    // get random card from hand
+    // get random card from hand exept Joker
     const cardsArr = this.gameBoard.opponent.hand.filter(
-      (item) => item.card !== undefined
+      (item) => item.card !== undefined && item.card.rank !== "Joker"
     );
     const chosenCard = cardsArr[Math.floor(Math.random() * cardsArr.length)];
     this.cardToPlay = chosenCard;
@@ -315,6 +356,29 @@ class GwentStore {
     const chosenPlace =
       emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
     this.moveToCell = chosenPlace;
+  }
+
+  opponentJokerMove() {
+    // find index of Joker and set card to play
+    const jokerIndex = this.gameBoard.opponent.hand.findIndex(
+      (item) => item.card !== undefined && item.card.rank === "Joker"
+    );
+    const chosenCard = this.gameBoard.opponent.hand[jokerIndex];
+    this.cardToPlay = chosenCard;
+    // place card on the field
+    // get random cell to place Joker card
+    const emptyCellsArr = this.gameBoard.player.farRow.rowItems
+      .filter((item) => item.card === undefined)
+      .concat(
+        this.gameBoard.player.nearRow.rowItems.filter(
+          (item) => item.card === undefined
+        )
+      );
+    const chosenPlace =
+      emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
+    this.moveToCell = chosenPlace;
+
+    console.log("place joker", this.moveToCell.x, this.moveToCell.y);
   }
 
   clearRows() {
@@ -333,7 +397,7 @@ class GwentStore {
 
 export const gwentStore = new GwentStore();
 
-// todo: add randomizer for Hand from Dealer
+// DONE: add randomizer for Hand from Dealer
 function returnEmptyRow(y: 0 | 1 | 2 | 3 | 4 | 5): CardData[] {
   return [
     { id: `0${y}`, x: 0, y: y, card: undefined },
@@ -358,6 +422,9 @@ function calcScore(row: CardData[]): number {
       arrOfRanks.push(item.card.rank);
 
       switch (item.card.rank) {
+        case "Joker":
+          sum += 10;
+          break;
         case "A":
           sum += 11;
           break;
@@ -526,6 +593,12 @@ const cardsForRedCoin: Card[] = [
     rank: "A",
     suit: "Diamonds",
   },
+  // test
+  // joker
+  {
+    rank: "Joker",
+    suit: "JokerRed",
+  },
 ];
 
 const cardsForBlackCoin: Card[] = [
@@ -632,6 +705,12 @@ const cardsForBlackCoin: Card[] = [
   {
     rank: "A",
     suit: "Clubs",
+  },
+  // test
+  // joker
+  {
+    rank: "Joker",
+    suit: "JokerBlack",
   },
 ];
 // Fisher–Yates shuffle
