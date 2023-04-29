@@ -8,7 +8,7 @@ class GwentStore {
   isPlayerPass: boolean;
   isOpponentPass: boolean;
   isPlayerMoveFirst: boolean;
-  currentRound: 0 | 1 | 2 | 3;
+  currentRound: number;
   opponentPairs: CardRanking[];
 
   constructor() {
@@ -115,17 +115,25 @@ class GwentStore {
     this.isOpponentPass = true;
   }
 
+  startTheGame() {
+    this.currentRound = 1;
+    this.setIsPlayerMoveFirst();
+    this.setInitialDealersCards();
+    this.drawCardsFromDealer(10);
+    this.opponentPairs = this.returnOpponentPairs();
+  }
+
   startNewRound() {
-    gwentStore.clearRows();
-    gwentStore.gameBoard.opponent.roundScore = 0;
-    gwentStore.gameBoard.player.roundScore = 0;
-    gwentStore.isOpponentPass = false;
-    gwentStore.isPlayerPass = false;
+    this.clearRows();
+    this.gameBoard.opponent.roundScore = 0;
+    this.gameBoard.player.roundScore = 0;
+    this.isOpponentPass = false;
+    this.isPlayerPass = false;
     //
     // TODO: Add changes to round when start the next round. IF OPPONENT MOVES FIRTS DO MOVES !
     //
-    gwentStore.currentRound += 1;
-    gwentStore.drawCardsFromDealer(3);
+    this.currentRound += 1;
+    this.drawCardsFromDealer(3);
     this.opponentPairs = this.returnOpponentPairs();
   }
 
@@ -298,6 +306,7 @@ class GwentStore {
       this.useJokerPerk("opponent");
       this.opponentPairs = this.returnOpponentPairs();
     } else if (this.opponentPairs.length) {
+      // TODO: refactoring
       // opponent makes a move
       // pair
       this.cardToPlay = this.gameBoard.opponent.hand.find(
@@ -424,10 +433,8 @@ class GwentStore {
         arrOfRanks.push(item.card.rank);
       }
     });
-    let sorted_arr = arrOfRanks.slice().sort(); // You can define the comparing function here.
-    // JS by default uses a crappy string compare.
-    // (we use slice to clone the array so the
-    // original array won't be modified)
+    let sorted_arr = arrOfRanks.slice().sort();
+
     let results: CardRanking[] = [];
     for (let i = 0; i < sorted_arr.length - 1; i++) {
       if (sorted_arr[i + 1] === sorted_arr[i]) {
