@@ -31,7 +31,7 @@ export const Main: React.FC = () => {
       </div>
       {/* TODO: change when rules component will be implemented */}
 
-      <div className="rules-testing">
+      <div className="rules-button">
         <button onClick={toGameRules}>toGameRules</button>
       </div>
     </div>

@@ -1,15 +1,21 @@
 @import "../constants.css";
 
-.rules-cards {
-  width: calc(var(--width-cell) * 5.5);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  column-gap: 10px;
+.rules {
+  font-size: 16px;
+  text-align: center;
+  padding: 45px;
+  color: aliceblue;
+  background: radial-gradient(rgba(0, 73, 16, 1), transparent 70%);
 }
 .card-combination-name,
 .card-combination,
 .score-bust {
   font-weight: bold;
   font-style: italic;
+  font-size: 18px;
+}
+.card-combination-name,
+.card-combination,
+.score-bust {
   color: black;
 }

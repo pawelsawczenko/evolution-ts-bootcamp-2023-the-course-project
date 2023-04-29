@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { gwentStore /*cardsCombinations*/ } from "../../stores/GameStore";
 
 import "./gamerules.css";
 import Hearts from "../../assets/Hearts.svg";
@@ -8,22 +7,16 @@ import Diamonds from "../../assets/Diamonds.svg";
 import Clubs from "../../assets/Clubs.svg";
 import Spades from "../../assets/Spades.svg";
 
-// import { CardFront } from "../board/Cell";
-// import { CardSuit } from "../../types";
-
 export const GameRules: React.FC = () => {
   const navigate = useNavigate();
 
-  // const suits: CardSuit[] = ["Hearts", "Diamonds", "Clubs", "Spades"];
-
-  const startGame = () => {
-    gwentStore.startTheGame();
+  const backToMainPage = () => {
     navigate("/", { replace: false });
   };
   return (
     <div>
       {/* TODO: change when rules component will be implemented */}
-      <div className="rules-testing">
+      <div className="rules">
         <p>
           Greater score wins the round. Whoever wins 2 rounds wins the game.
         </p>
@@ -39,13 +32,6 @@ export const GameRules: React.FC = () => {
           <span className="score-bust"> +7 </span>to the row score. Cards can be
           of any suits.
         </p>
-        {/* <div className="rules-cards RoyalFlush">
-          {cardsCombinations.royalFlush.map((rank) => (
-            <div className={`card ${suits[0]}`}>
-              <CardFront key={Math.random()} rank={rank} suit={suits[0]} />
-            </div>
-          ))}
-        </div> */}
 
         <p>
           <span className="card-combination-name">Straight: </span>the sequence
@@ -53,13 +39,6 @@ export const GameRules: React.FC = () => {
           <span className="score-bust"> +5 </span>to the row score. Cards can be
           of any suits.
         </p>
-        {/* <div className="rules-cards Straight">
-          {cardsCombinations.straight.map((rank) => (
-            <div className={`card ${suits[0]}`}>
-              <CardFront key={Math.random()} rank={rank} suit={suits[0]} />
-            </div>
-          ))}
-        </div> */}
 
         <p>
           <span className="card-combination-name">Baby Straight:</span> the
@@ -67,13 +46,6 @@ export const GameRules: React.FC = () => {
           <span className="score-bust"> +3 </span>to the row score. Cards can be
           of any suits.
         </p>
-        {/* <div className="rules-cards BabyStraight">
-          {cardsCombinations.babyStraight.map((rank) => (
-            <div className={`card ${suits[0]}`}>
-              <CardFront key={Math.random()} rank={rank} suit={suits[0]} />
-            </div>
-          ))}
-        </div> */}
 
         <p>Cards with perks:</p>
         <p>
@@ -86,7 +58,7 @@ export const GameRules: React.FC = () => {
       <div id="main">
         <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
         <img className="suit" src={Hearts} alt={`suit Hearts`} />
-        <button onClick={startGame}>Back to main page</button>
+        <button onClick={backToMainPage}>Back to main page</button>
         <img className="suit" src={Spades} alt={`suit Spades`} />
         <img className="suit" src={Clubs} alt={`suit Clubs`} />
       </div>
