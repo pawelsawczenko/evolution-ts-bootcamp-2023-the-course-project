@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Main } from "./components/main/Main";
 import { GameBoard } from "./components/board/GameBoard";
+import { GameRules } from "./components/game-rules/GameRules";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="rules" element={<GameRules />} />
           <Route path="game" element={<GameBoard />} />
         </Routes>
       </BrowserRouter>

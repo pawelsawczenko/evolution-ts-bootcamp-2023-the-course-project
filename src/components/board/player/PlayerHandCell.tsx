@@ -1,7 +1,7 @@
 import { CardData } from "../../../types";
-import { Suit } from "../Suit";
 import { gwentStore } from "../../../stores/GameStore";
 import React from "react";
+import { CardFront } from "../Cell";
 
 export const PlayerHandCell: React.FC<CardData> = ({ id, card, x, y }) => {
   const [isClicked, setIsClicked] = React.useState(false);
@@ -36,9 +36,10 @@ export const PlayerHandCell: React.FC<CardData> = ({ id, card, x, y }) => {
         className={`card ${card.suit} ${selected}`}
         onClick={onCellClick}
       >
-        <span className="rank rank-before">{card.rank}</span>
+        {/* <span className="rank rank-before">{card.rank}</span>
         <Suit suit={card.suit} rank={card.rank}></Suit>
-        <span className="rank rank-after">{card.rank}</span>
+        <span className="rank rank-after">{card.rank}</span> */}
+        <CardFront rank={card.rank} suit={card.suit} />
       </div>
     );
   }

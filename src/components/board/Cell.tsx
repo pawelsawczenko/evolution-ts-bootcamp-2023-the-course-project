@@ -1,4 +1,4 @@
-import { CardData } from "../../types";
+import { CardData, Card } from "../../types";
 import { Suit } from "./Suit";
 import { gwentStore } from "../../stores/GameStore";
 import React from "react";
@@ -22,16 +22,36 @@ export const Cell: React.FC<CardData> = ({ id, card, x, y }) => {
     return (
       <div className="card-wrapper">
         <div id={`cell-${x}-${y}`} className={`card ${card.suit}`}>
-          <div className="card-front">
+          {/* <div className="card-front">
             <span className="rank rank-before">{card.rank}</span>
             <Suit suit={card.suit} rank={card.rank}></Suit>
             <span className="rank rank-after">{card.rank}</span>
-          </div>
+          </div> */}
+          <CardFront rank={card.rank} suit={card.suit} />
           <div className="card-back">
-            <img src={BackDesign} alt="Back Design" />
+            {/* <img src={BackDesign} alt="Back Design" /> */}
+            <BackDesignComponent />
           </div>
         </div>
       </div>
     );
   }
+};
+
+export const CardFront: React.FC<Card> = ({ rank, suit }) => {
+  return (
+    <div className="card-front">
+      <span className="rank rank-before">{rank}</span>
+      <Suit suit={suit} rank={rank}></Suit>
+      <span className="rank rank-after">{rank}</span>
+    </div>
+  );
+};
+
+export const BackDesignComponent: React.FC = () => {
+  return (
+    <>
+      <img src={BackDesign} alt="Back Design" />
+    </>
+  );
 };

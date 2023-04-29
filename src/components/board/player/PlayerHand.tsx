@@ -4,7 +4,7 @@ import { PlayerHandCell } from "./PlayerHandCell";
 import "../row.css";
 import { gwentStore } from "../../../stores/GameStore";
 import { observer } from "mobx-react-lite";
-import BackDesign from "../../../assets/BackDesign.svg";
+import { BackDesignComponent } from "../Cell";
 
 // TODO: refactir with opponent hand
 const PlayerHand: React.FC = () => {
@@ -30,7 +30,7 @@ const PlayerHand: React.FC = () => {
         {/* <h2>dealer</h2> */}
         {numberOfDealerCards !== 0 ? (
           <div className="back-desight">
-            <img src={BackDesign} alt="Back Design" />
+            <BackDesignComponent />
           </div>
         ) : (
           <div className="empty-cell"></div>

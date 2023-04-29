@@ -16,6 +16,10 @@ export const Main: React.FC = () => {
     gwentStore.startTheGame();
     navigate("game", { replace: false });
   };
+
+  const toGameRules = () => {
+    navigate("rules", { replace: false });
+  };
   return (
     <div>
       <div id="main">
@@ -26,21 +30,9 @@ export const Main: React.FC = () => {
         <img className="suit" src={Clubs} alt={`suit Clubs`} />
       </div>
       {/* TODO: change when rules component will be implemented */}
+
       <div className="rules-testing">
-        <p>
-          Greater score wins the round. Whoever wins 2 rounds wins the game.
-        </p>
-        <p>Score:</p>
-        <p>Two cards with the same next to each other give +2 to row score.</p>
-        <p>Royal Flush - 10 J Q K A of any suit - give +7 to row score.</p>
-        <p>Straight - 6 7 8 9 10 of any suit - give +5 to row score.</p>
-        <p>Baby Straight - A 2 3 4 5 of any suit - give +3 to row score.</p>
-        <p>Cards with perks:</p>
-        <p>
-          Joker can be placed only on the side of the opponent. It will add +10
-          to opponent score, but give you 2 random cards from dealer if he has
-          any.
-        </p>
+        <button onClick={toGameRules}>toGameRules</button>
       </div>
     </div>
   );

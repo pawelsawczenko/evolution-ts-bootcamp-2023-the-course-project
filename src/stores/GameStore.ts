@@ -1,6 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import { Card, CardRanking, CardData, GameBoard } from "../types";
 
+interface CardsCombinations {
+  royalFlush: CardRanking[];
+  straight: CardRanking[];
+  babyStraight: CardRanking[];
+}
+
 class GwentStore {
   gameBoard: GameBoard;
   cardToPlay: CardData | undefined;
@@ -10,6 +16,7 @@ class GwentStore {
   isPlayerMoveFirst: boolean;
   currentRound: number;
   opponentPairs: CardRanking[];
+  opponentPairsCellToMove: CardData[];
 
   constructor() {
     this.gameBoard = {
@@ -49,6 +56,7 @@ class GwentStore {
     this.isPlayerMoveFirst = false;
     this.currentRound = 0;
     this.opponentPairs = [];
+    this.opponentPairsCellToMove = [];
 
     makeAutoObservable(this);
   }
@@ -104,10 +112,9 @@ class GwentStore {
 
   setIsPlayerPass() {
     this.isPlayerPass = true;
-    // for testing
-    // TODO: change to value above when rounds flow will be implemented
-    // this.isPlayerPass = !this.isPlayerPass;
-    this.opponentsMove();
+    if (!this.isOpponentPass) {
+      this.opponentsMove();
+    }
     this.checkIsRoundWon();
   }
 
@@ -121,6 +128,9 @@ class GwentStore {
     this.setInitialDealersCards();
     this.drawCardsFromDealer(10);
     this.opponentPairs = this.returnOpponentPairs();
+    if (!this.isPlayerMoveFirst) {
+      this.opponentsMove();
+    }
   }
 
   startNewRound() {
@@ -174,6 +184,8 @@ class GwentStore {
     this.isOpponentPass = false;
     this.isPlayerMoveFirst = false;
     this.currentRound = 0;
+    this.opponentPairs = [];
+    this.opponentPairsCellToMove = [];
   }
   // TODO: change when components will be implemented
   checkIsRoundWon() {
@@ -213,14 +225,17 @@ class GwentStore {
       // for cards without perks
       placeToMove.card === undefined &&
       placeToMove.y < 3 &&
-      this.cardToPlay !== undefined
+      this.cardToPlay !== undefined &&
+      this.cardToPlay?.card?.rank !== "Joker"
     ) {
       this.moveToCell = placeToMove;
       // console.log("move to", placeToMove);
       // console.log("this.chooseCard from store", this.cardToPlay);
       //
       this.playCards("player", "player");
-      this.opponentsMove();
+      if (!this.isOpponentPass) {
+        this.opponentsMove();
+      }
     } else if (
       // for Joker
       placeToMove.card === undefined &&
@@ -233,7 +248,9 @@ class GwentStore {
       this.playCards("opponent", "player");
       // use perk. 2 cards to hand
       this.useJokerPerk("player");
-      this.opponentsMove();
+      if (!this.isOpponentPass) {
+        this.opponentsMove();
+      }
     }
   }
 
@@ -257,12 +274,17 @@ class GwentStore {
   // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
     // DONE: findIndex to find
-    if (!this.gameBoard.opponent.hand.find((item) => item.card !== undefined)) {
+    if (
+      !this.gameBoard.opponent.hand.find((item) => item.card !== undefined) ||
+      (this.gameBoard.opponent.roundScore - this.gameBoard.player.roundScore >=
+        19 &&
+        this.currentRound === 1)
+    ) {
       // opponent doesn't have enough cards in hand
       // opponent passes
       this.setIsOpponentPass();
       console.log(
-        "out of cards. is op won?",
+        "out of cards or op score > player's score >= 15. is op won?",
         this.gameBoard.opponent.roundScore
       );
     } else if (
@@ -284,13 +306,20 @@ class GwentStore {
       // opponent doesn't have enough score to win or draw the round
       // player passed make a move
       this.opponentRandomMove();
-
       this.playCards("opponent", "opponent");
 
-      console.log("make another move", this.gameBoard.opponent.roundScore);
+      console.log(
+        "opponent makes another move",
+        this.gameBoard.opponent.roundScore
+      );
       // recursion
       // checking if the opponent has enough score to pass the round or not
       this.opponentsMove();
+    } else if (this.opponentPairs.length) {
+      // opponent makes a move
+      // pair
+      this.opponentPairMove();
+      this.playCards("opponent", "opponent");
     } else if (
       this.gameBoard.opponent.hand.find(
         (item) => item.card !== undefined && item.card.rank === "Joker"
@@ -305,26 +334,6 @@ class GwentStore {
       // use perk. 2 cards to hand
       this.useJokerPerk("opponent");
       this.opponentPairs = this.returnOpponentPairs();
-    } else if (this.opponentPairs.length) {
-      // TODO: refactoring
-      // opponent makes a move
-      // pair
-      this.cardToPlay = this.gameBoard.opponent.hand.find(
-        (item) => item.card?.rank === this.opponentPairs[0]
-      );
-      this.opponentPairs.shift();
-
-      const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
-        .filter((item) => item.card === undefined)
-        .concat(
-          this.gameBoard.opponent.nearRow.rowItems.filter(
-            (item) => item.card === undefined
-          )
-        );
-
-      const chosenPlace = emptyCellsArr[0];
-      this.moveToCell = chosenPlace;
-      this.playCards("opponent", "opponent");
     } else {
       // opponent makes a move
       // RANDOM
@@ -332,8 +341,6 @@ class GwentStore {
 
       this.playCards("opponent", "opponent");
     }
-
-    // console.log(this.opponentPairs);
   }
 
   playCards(
@@ -388,6 +395,49 @@ class GwentStore {
     const chosenPlace =
       emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
     this.moveToCell = chosenPlace;
+  }
+
+  opponentPairMove() {
+    // TODO: refactoring
+    this.cardToPlay = this.gameBoard.opponent.hand.find(
+      (item) => item.card?.rank === this.opponentPairs[0]
+    );
+
+    if (this.opponentPairs.length % 2 === 0) {
+      const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
+        .filter((item) => item.card === undefined && item.x % 2 === 0)
+        .concat(
+          this.gameBoard.opponent.nearRow.rowItems.filter(
+            (item) => item.card === undefined && item.x % 2 === 0
+          )
+        );
+
+      const chosenPlace =
+        emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
+      this.moveToCell = chosenPlace;
+      console.log("first card in pair");
+    } else {
+      const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
+        .filter(
+          (item, index, arr) =>
+            (arr[index + 1]?.card?.rank === this.opponentPairs[0] ||
+              arr[index - 1]?.card?.rank === this.opponentPairs[0]) &&
+            item.card === undefined
+        )
+        .concat(
+          this.gameBoard.opponent.nearRow.rowItems.filter(
+            (item, index, arr) =>
+              arr[index - 1]?.card?.rank === this.opponentPairs[0] &&
+              item.card === undefined
+          )
+        );
+
+      const chosenPlace = emptyCellsArr[0];
+      this.moveToCell = chosenPlace;
+      console.log("second card in pair");
+    }
+
+    this.opponentPairs.shift();
   }
 
   opponentJokerMove() {
@@ -446,98 +496,11 @@ class GwentStore {
   }
 }
 
-export const gwentStore = new GwentStore();
-
-// DONE: add randomizer for Hand from Dealer
-function returnEmptyRow(y: 0 | 1 | 2 | 3 | 4 | 5): CardData[] {
-  return [
-    { id: `0${y}`, x: 0, y: y, card: undefined },
-    { id: `1${y}`, x: 1, y: y, card: undefined },
-    { id: `2${y}`, x: 2, y: y, card: undefined },
-    { id: `3${y}`, x: 3, y: y, card: undefined },
-    { id: `4${y}`, x: 4, y: y, card: undefined },
-    { id: `5${y}`, x: 5, y: y, card: undefined },
-    { id: `6${y}`, x: 6, y: y, card: undefined },
-    { id: `7${y}`, x: 7, y: y, card: undefined },
-    { id: `8${y}`, x: 8, y: y, card: undefined },
-    { id: `9${y}`, x: 9, y: y, card: undefined },
-  ];
-}
-
-function calcScore(row: CardData[]): number {
-  let sum = 0;
-  let arrOfRanks: CardRanking[] = [];
-
-  row.forEach((item) => {
-    if (item.card !== undefined) {
-      arrOfRanks.push(item.card.rank);
-
-      switch (item.card.rank) {
-        case "Joker":
-          sum += 10;
-          break;
-        case "A":
-          sum += 11;
-          break;
-        case "K":
-        case "Q":
-        case "J":
-          sum += 10;
-          break;
-        default:
-          sum += +item.card.rank;
-      }
-    }
-  });
-
-  arrOfRanks.forEach((rank, index) => {
-    if (index !== 0) {
-      if (rank === arrOfRanks[index - 1]) {
-        // if row has pair one by one, add 2 to score
-        sum += 2;
-      }
-    }
-    if (index >= 4) {
-      const royalFlush: CardRanking[] = ["10", "J", "Q", "K", "A"];
-      const straight: CardRanking[] = ["6", "7", "8", "9", "10"];
-      const babyStraight: CardRanking[] = ["A", "2", "3", "4", "5"];
-
-      if (
-        rank === royalFlush[4] &&
-        arrOfRanks[index - 1] === royalFlush[3] &&
-        arrOfRanks[index - 2] === royalFlush[2] &&
-        arrOfRanks[index - 3] === royalFlush[1] &&
-        arrOfRanks[index - 4] === royalFlush[0]
-      ) {
-        // if row has Royal Flush, add 7 to score
-        sum += 7;
-      }
-
-      if (
-        rank === straight[4] &&
-        arrOfRanks[index - 1] === straight[3] &&
-        arrOfRanks[index - 2] === straight[2] &&
-        arrOfRanks[index - 3] === straight[1] &&
-        arrOfRanks[index - 4] === straight[0]
-      ) {
-        // if row has "Straight", add 5 to score
-        sum += 5;
-      }
-
-      if (
-        rank === babyStraight[4] &&
-        arrOfRanks[index - 1] === babyStraight[3] &&
-        arrOfRanks[index - 2] === babyStraight[2] &&
-        arrOfRanks[index - 3] === babyStraight[1] &&
-        arrOfRanks[index - 4] === babyStraight[0]
-      ) {
-        // if row has "Baby Straight", add 3 to score
-        sum += 3;
-      }
-    }
-  });
-  return sum;
-}
+export const cardsCombinations: CardsCombinations = {
+  royalFlush: ["10", "J", "Q", "K", "A"],
+  straight: ["6", "7", "8", "9", "10"],
+  babyStraight: ["A", "2", "3", "4", "5"],
+};
 
 const cardsForRedCoin: Card[] = [
   {
@@ -764,6 +727,97 @@ const cardsForBlackCoin: Card[] = [
     suit: "JokerBlack",
   },
 ];
+
+export const gwentStore = new GwentStore();
+
+// DONE: add randomizer for Hand from Dealer
+function returnEmptyRow(y: 0 | 1 | 2 | 3 | 4 | 5): CardData[] {
+  return [
+    { id: `0${y}`, x: 0, y: y, card: undefined },
+    { id: `1${y}`, x: 1, y: y, card: undefined },
+    { id: `2${y}`, x: 2, y: y, card: undefined },
+    { id: `3${y}`, x: 3, y: y, card: undefined },
+    { id: `4${y}`, x: 4, y: y, card: undefined },
+    { id: `5${y}`, x: 5, y: y, card: undefined },
+    { id: `6${y}`, x: 6, y: y, card: undefined },
+    { id: `7${y}`, x: 7, y: y, card: undefined },
+    { id: `8${y}`, x: 8, y: y, card: undefined },
+    { id: `9${y}`, x: 9, y: y, card: undefined },
+  ];
+}
+
+function calcScore(row: CardData[]): number {
+  let sum = 0;
+  let arrOfRanks: (CardRanking | undefined)[] = [];
+
+  row.forEach((item) => {
+    if (item.card !== undefined) {
+      arrOfRanks.push(item.card.rank);
+
+      switch (item.card.rank) {
+        case "Joker":
+          sum += 10;
+          break;
+        case "A":
+          sum += 11;
+          break;
+        case "K":
+        case "Q":
+        case "J":
+          sum += 10;
+          break;
+        default:
+          sum += +item.card.rank;
+      }
+    } else {
+      arrOfRanks.push(item.card);
+    }
+  });
+  // console.log(arrOfRanks);
+  arrOfRanks.forEach((rank, index) => {
+    if (index !== 0 && rank !== undefined) {
+      if (rank === arrOfRanks[index - 1]) {
+        // if row has pair one by one, add 2 to score
+        sum += 2;
+      }
+    }
+    if (index >= 4) {
+      if (
+        rank === cardsCombinations.royalFlush[4] &&
+        arrOfRanks[index - 1] === cardsCombinations.royalFlush[3] &&
+        arrOfRanks[index - 2] === cardsCombinations.royalFlush[2] &&
+        arrOfRanks[index - 3] === cardsCombinations.royalFlush[1] &&
+        arrOfRanks[index - 4] === cardsCombinations.royalFlush[0]
+      ) {
+        // if row has Royal Flush, add 7 to score
+        sum += 7;
+      }
+
+      if (
+        rank === cardsCombinations.straight[4] &&
+        arrOfRanks[index - 1] === cardsCombinations.straight[3] &&
+        arrOfRanks[index - 2] === cardsCombinations.straight[2] &&
+        arrOfRanks[index - 3] === cardsCombinations.straight[1] &&
+        arrOfRanks[index - 4] === cardsCombinations.straight[0]
+      ) {
+        // if row has "Straight", add 5 to score
+        sum += 5;
+      }
+
+      if (
+        rank === cardsCombinations.babyStraight[4] &&
+        arrOfRanks[index - 1] === cardsCombinations.babyStraight[3] &&
+        arrOfRanks[index - 2] === cardsCombinations.babyStraight[2] &&
+        arrOfRanks[index - 3] === cardsCombinations.babyStraight[1] &&
+        arrOfRanks[index - 4] === cardsCombinations.babyStraight[0]
+      ) {
+        // if row has "Baby Straight", add 3 to score
+        sum += 3;
+      }
+    }
+  });
+  return sum;
+}
 // Fisher–Yates shuffle
 function shuffleArr(cards: Card[]) {
   let cardsLength = cards.length;
