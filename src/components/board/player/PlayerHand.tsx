@@ -4,8 +4,10 @@ import { PlayerHandCell } from "./PlayerHandCell";
 import "../row.css";
 import { gwentStore } from "../../../stores/GameStore";
 import { observer } from "mobx-react-lite";
+import BackDesign from "../../../assets/BackDesign.svg";
 
-export const PlayerHand: React.FC = () => {
+// TODO: refactir with opponent hand
+const PlayerHand: React.FC = () => {
   const { hand } = gwentStore.gameBoard.player;
   const numberOfDealerCards = gwentStore.gameBoard.player.dealer.deck.length;
 
@@ -25,8 +27,17 @@ export const PlayerHand: React.FC = () => {
         })}
       </div>
       <div className="dealer">
-        <h2>dealer</h2>
-        <h3>{numberOfDealerCards}</h3>
+        {/* <h2>dealer</h2> */}
+        {numberOfDealerCards !== 0 ? (
+          <div className="back-desight">
+            <img src={BackDesign} alt="Back Design" />
+          </div>
+        ) : (
+          <div className="empty-cell"></div>
+        )}
+        <div className="dealer-cards-number">
+          <h3>{numberOfDealerCards}</h3>
+        </div>
       </div>
     </div>
   );

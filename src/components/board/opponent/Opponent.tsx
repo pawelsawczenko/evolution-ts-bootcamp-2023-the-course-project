@@ -8,6 +8,7 @@ import { RowComponent } from "../Row";
 import { gwentStore } from "../../../stores/GameStore";
 import { OpponentHandObserver } from "./OpponentHand";
 
+// TODO: refactoring. duplicated with opponent => merge to one
 const OpponentSide: React.FC = () => {
   const nearRow: CardData[] = gwentStore.gameBoard.opponent.nearRow.rowItems;
   const nearRowScore: number = gwentStore.gameBoard.opponent.nearRow.score;

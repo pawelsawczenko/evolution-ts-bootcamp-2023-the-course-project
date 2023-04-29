@@ -245,6 +245,7 @@ class GwentStore {
   // DONE: add more advanced logic when rounds flow will be implemented
   // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
+    // const arrOfPairs = this.returnOpponentPairs();
     // DONE: findIndex to find
     if (!this.gameBoard.opponent.hand.find((item) => item.card !== undefined)) {
       // opponent doesn't have enough cards in hand
@@ -280,28 +281,28 @@ class GwentStore {
       // recursion
       // checking if the opponent has enough score to pass the round or not
       this.opponentsMove();
+    } else if (
+      this.gameBoard.opponent.hand.find(
+        (item) => item.card !== undefined && item.card.rank === "Joker"
+      ) &&
+      this.gameBoard.opponent.hand.filter((item) => item.card !== undefined)
+        .length < 7
+    ) {
+      // opponent makes a move
+      // JOKER
+      this.opponentJokerMove();
+      this.playCards("player", "opponent");
+      // use perk. 2 cards to hand
+      this.useJokerPerk("opponent");
     } else {
       // opponent makes a move
+      // RANDOM
+      this.opponentRandomMove();
 
-      if (
-        this.gameBoard.opponent.hand.find(
-          (item) => item.card !== undefined && item.card.rank === "Joker"
-        ) &&
-        this.gameBoard.opponent.hand.filter((item) => item.card !== undefined)
-          .length < 7
-      ) {
-        // JOKER
-        this.opponentJokerMove();
-        this.playCards("player", "opponent");
-        // use perk. 2 cards to hand
-        this.useJokerPerk("opponent");
-      } else {
-        // RANDOM
-        this.opponentRandomMove();
-
-        this.playCards("opponent", "opponent");
-      }
+      this.playCards("opponent", "opponent");
     }
+
+    console.log(this.returnOpponentPairs());
   }
 
   playCards(
@@ -392,6 +393,27 @@ class GwentStore {
     this.gameBoard.player.farRow.score = 0;
     this.gameBoard.player.nearRow.rowItems = returnEmptyRow(1);
     this.gameBoard.player.nearRow.score = 0;
+  }
+
+  returnOpponentPairs(): CardRanking[] {
+    const arrOfRanks: CardRanking[] = [];
+    this.gameBoard.opponent.hand.forEach((item) => {
+      if (item.card !== undefined) {
+        arrOfRanks.push(item.card.rank);
+      }
+    });
+    let sorted_arr = arrOfRanks.slice().sort(); // You can define the comparing function here.
+    // JS by default uses a crappy string compare.
+    // (we use slice to clone the array so the
+    // original array won't be modified)
+    let results: CardRanking[] = [];
+    for (let i = 0; i < sorted_arr.length - 1; i++) {
+      if (sorted_arr[i + 1] === sorted_arr[i]) {
+        results.push(sorted_arr[i]);
+        results.push(sorted_arr[i + 1]);
+      }
+    }
+    return results;
   }
 }
 

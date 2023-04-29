@@ -8,7 +8,7 @@ import { RowComponent } from "../Row";
 
 import { gwentStore } from "../../../stores/GameStore";
 
-// TODO: duplicated with opponent => merge to one
+// TODO: refactoring. duplicated with opponent => merge to one
 const PlayerSide: React.FC = () => {
   const farRow: CardData[] = gwentStore.gameBoard.player.farRow.rowItems;
   const farRowScore: number = gwentStore.gameBoard.player.farRow.score;
