@@ -22,8 +22,9 @@ export const GameRules: React.FC = () => {
         </p>
         <p>Score:</p>
         <p>
-          Two cards with the same next to each other give{" "}
-          <span className="score-bust"> +2 </span>to row score.
+          Two cards with the same{" "}
+          <span className="card-combination"> rank </span> next to each other
+          give <span className="score-bust"> +2 </span>to row score.
         </p>
 
         <p>
@@ -52,7 +53,8 @@ export const GameRules: React.FC = () => {
           <span className="card-combination-name">Joker</span> can only be
           placed on the opponent's side. It will add{" "}
           <span className="score-bust"> +10 </span>to the opponent's score, but
-          will give you 2 random cards from the dealer if available.
+          will give you <span className="score-bust"> 2 random cards </span>{" "}
+          from the dealer if available.
         </p>
       </div>
       <div id="main">
