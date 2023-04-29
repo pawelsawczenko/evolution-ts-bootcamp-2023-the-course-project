@@ -13,10 +13,13 @@ export const Main: React.FC = () => {
   const navigate = useNavigate();
 
   const startGame = () => {
+    // TODO: ADD TO STORE
     gwentStore.currentRound = 1;
     gwentStore.setIsPlayerMoveFirst();
     gwentStore.setInitialDealersCards();
     gwentStore.drawCardsFromDealer(10);
+    gwentStore.opponentPairs = gwentStore.returnOpponentPairs();
+    //
     navigate("game", { replace: false });
   };
   return (

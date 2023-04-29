@@ -9,6 +9,7 @@ class GwentStore {
   isOpponentPass: boolean;
   isPlayerMoveFirst: boolean;
   currentRound: 0 | 1 | 2 | 3;
+  opponentPairs: CardRanking[];
 
   constructor() {
     this.gameBoard = {
@@ -47,6 +48,7 @@ class GwentStore {
     this.isOpponentPass = false;
     this.isPlayerMoveFirst = false;
     this.currentRound = 0;
+    this.opponentPairs = [];
 
     makeAutoObservable(this);
   }
@@ -124,6 +126,7 @@ class GwentStore {
     //
     gwentStore.currentRound += 1;
     gwentStore.drawCardsFromDealer(3);
+    this.opponentPairs = this.returnOpponentPairs();
   }
 
   resetTheGame() {
@@ -245,7 +248,6 @@ class GwentStore {
   // DONE: add more advanced logic when rounds flow will be implemented
   // TODO: add more advanced logic when card's percs and advanced scoring
   opponentsMove() {
-    // const arrOfPairs = this.returnOpponentPairs();
     // DONE: findIndex to find
     if (!this.gameBoard.opponent.hand.find((item) => item.card !== undefined)) {
       // opponent doesn't have enough cards in hand
@@ -294,6 +296,26 @@ class GwentStore {
       this.playCards("player", "opponent");
       // use perk. 2 cards to hand
       this.useJokerPerk("opponent");
+      this.opponentPairs = this.returnOpponentPairs();
+    } else if (this.opponentPairs.length) {
+      // opponent makes a move
+      // pair
+      this.cardToPlay = this.gameBoard.opponent.hand.find(
+        (item) => item.card?.rank === this.opponentPairs[0]
+      );
+      this.opponentPairs.shift();
+
+      const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
+        .filter((item) => item.card === undefined)
+        .concat(
+          this.gameBoard.opponent.nearRow.rowItems.filter(
+            (item) => item.card === undefined
+          )
+        );
+
+      const chosenPlace = emptyCellsArr[0];
+      this.moveToCell = chosenPlace;
+      this.playCards("opponent", "opponent");
     } else {
       // opponent makes a move
       // RANDOM
@@ -302,7 +324,7 @@ class GwentStore {
       this.playCards("opponent", "opponent");
     }
 
-    console.log(this.returnOpponentPairs());
+    // console.log(this.opponentPairs);
   }
 
   playCards(
