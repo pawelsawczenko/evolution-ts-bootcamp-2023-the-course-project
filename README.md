@@ -1,5 +1,7 @@
 # evolution-ts-bootcamp-2023-the-course-project
 
+Deployed: [Gwent-based card game](https://gwent-based-game-bootcamp-2023.netlify.app)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
