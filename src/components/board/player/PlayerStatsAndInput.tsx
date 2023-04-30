@@ -2,8 +2,10 @@ import React from "react";
 import { observer } from "mobx-react";
 
 import { gwentStore } from "../../../stores/GameStore";
+import { useNavigate } from "react-router-dom";
 
 const PlayerStatsAndInput: React.FC = () => {
+  const navigate = useNavigate();
   const { roundScore, roundsWon } = gwentStore.gameBoard.player;
   // const currentScore = gwentStore.gameBoard.player.roundScore;
   // const roundsWon = gwentStore.gameBoard.player.roundsWon;
@@ -11,9 +13,14 @@ const PlayerStatsAndInput: React.FC = () => {
 
   // const currentlyChosenCard = gwentStore.cardToPlay;
   // TODO: all on click (useCallback, useMemo)?
-  const onClick = React.useCallback(() => {
+  const onPassClick = React.useCallback(() => {
     gwentStore.setIsPlayerPass();
   }, []);
+
+  const onQuitClick = React.useCallback(() => {
+    gwentStore.resetTheGame();
+    navigate("/", { replace: false });
+  }, [navigate]);
 
   return (
     <div className="stats player-statistic">
@@ -33,11 +40,16 @@ const PlayerStatsAndInput: React.FC = () => {
       </div>
 
       <div>
-        <span> --- Player {isPlayerPass} </span>
-        <button onClick={onClick}>pass</button>
+        <div> --- Player {isPlayerPass} </div>
+        <button className="btn btn-main" onClick={onPassClick}>
+          Pass
+        </button>
       </div>
-      {/* card that currently chosen special ability */}
-      <div></div>
+      <div>
+        <button className="btn btn-quit" onClick={onQuitClick}>
+          Quit
+        </button>
+      </div>
     </div>
   );
 };

@@ -14,25 +14,34 @@ export const Main: React.FC = () => {
 
   const startGame = () => {
     gwentStore.startTheGame();
-    navigate("game", { replace: false });
+    // navigate("game", { replace: false });
+    navigate("coin", { replace: false });
   };
 
   const toGameRules = () => {
     navigate("rules", { replace: false });
   };
+  // const toCoin = () => {
+  //   navigate("coin", { replace: false });
+  // };
   return (
     <div>
       <div id="main">
         <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
         <img className="suit" src={Hearts} alt={`suit Hearts`} />
-        <button onClick={startGame}>Start Game</button>
+        <button className="btn btn-main" onClick={startGame}>
+          Start Game
+        </button>
         <img className="suit" src={Spades} alt={`suit Spades`} />
         <img className="suit" src={Clubs} alt={`suit Clubs`} />
       </div>
       {/* TODO: change when rules component will be implemented */}
 
       <div className="rules-button">
-        <button onClick={toGameRules}>toGameRules</button>
+        {/* <button onClick={toCoin}>toCoin</button> */}
+        <button className="btn btn-main" onClick={toGameRules}>
+          Game Rules
+        </button>
       </div>
     </div>
   );

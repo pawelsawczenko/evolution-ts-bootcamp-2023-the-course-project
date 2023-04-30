@@ -5,6 +5,7 @@ import "./App.css";
 import { Main } from "./components/main/Main";
 import { GameBoard } from "./components/board/GameBoard";
 import { GameRules } from "./components/game-rules/GameRules";
+import { CoinFlip } from "./components/coin-flip/CoinFlip";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="rules" element={<GameRules />} />
-          <Route path="game" element={<GameBoard />} />
+          <Route path="coin" element={<CoinFlip />} />
+          <Route path="gameboard" element={<GameBoard />} />
         </Routes>
       </BrowserRouter>
     </div>

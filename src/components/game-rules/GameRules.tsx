@@ -60,7 +60,9 @@ export const GameRules: React.FC = () => {
       <div id="main">
         <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
         <img className="suit" src={Hearts} alt={`suit Hearts`} />
-        <button onClick={backToMainPage}>Back to main page</button>
+        <button className="btn btn-main" onClick={backToMainPage}>
+          Back to main page
+        </button>
         <img className="suit" src={Spades} alt={`suit Spades`} />
         <img className="suit" src={Clubs} alt={`suit Clubs`} />
       </div>

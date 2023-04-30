@@ -39,7 +39,7 @@ export const PopUp: React.FC<PopUpProps> = ({ setPopUpHidden }) => {
       gwentStore.startNewRound();
       setPopUpHidden("pop-up-hidden");
     }
-  }, []);
+  }, [navigate, setPopUpHidden]);
 
   return (
     <div className="pop-up">
@@ -52,7 +52,9 @@ export const PopUp: React.FC<PopUpProps> = ({ setPopUpHidden }) => {
         player - {gwentStore.gameBoard.player.roundsWon} round score -{" "}
         {gwentStore.gameBoard.player.roundScore}
       </h3>
-      <button onClick={onClickPopUp}>close pop up</button>
+      <button className="btn btn-main" onClick={onClickPopUp}>
+        close pop up
+      </button>
     </div>
   );
 };
