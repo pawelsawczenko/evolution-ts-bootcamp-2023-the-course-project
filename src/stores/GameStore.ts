@@ -62,9 +62,8 @@ class GwentStore {
   }
 
   setIsPlayerMoveFirst() {
-    // if num > 50 coin is red else coin is black
-    const num = Math.floor(Math.random() * 100);
-    if (num > 50) {
+    const num = Math.floor(Math.random() * 2);
+    if (num) {
       this.isPlayerMoveFirst = true;
     } else {
       this.isPlayerMoveFirst = false;
@@ -81,32 +80,27 @@ class GwentStore {
     }
   }
 
+  drawCard(whoPlays: "opponent" | "player") {
+    const indexOfEmptyCardPlayer = this.gameBoard[whoPlays].hand.findIndex(
+      (item) => item.card === undefined
+    );
+    if (indexOfEmptyCardPlayer !== -1) {
+      this.gameBoard[whoPlays].hand[indexOfEmptyCardPlayer].card = {
+        rank: this.gameBoard[whoPlays].dealer.deck[0].rank,
+        suit: this.gameBoard[whoPlays].dealer.deck[0].suit,
+      };
+
+      this.gameBoard[whoPlays].dealer.deck.splice(0, 1);
+    }
+  }
+
   drawCardsFromDealer(numberOfCards: 10 | 3) {
+    const arr: ("opponent" | "player")[] = ["opponent", "player"];
+
     for (let i = numberOfCards; i > 0; i--) {
-      // add card to opponent's hand
-      const indexOfEmptyCardOpponent = this.gameBoard.opponent.hand.findIndex(
-        (item) => item.card === undefined
-      );
-      if (indexOfEmptyCardOpponent !== -1) {
-        this.gameBoard.opponent.hand[indexOfEmptyCardOpponent].card = {
-          rank: this.gameBoard.opponent.dealer.deck[0].rank,
-          suit: this.gameBoard.opponent.dealer.deck[0].suit,
-        };
-
-        this.gameBoard.opponent.dealer.deck.splice(0, 1);
-      }
-      // add card to player's hand
-      const indexOfEmptyCardPlayer = this.gameBoard.player.hand.findIndex(
-        (item) => item.card === undefined
-      );
-      if (indexOfEmptyCardPlayer !== -1) {
-        this.gameBoard.player.hand[indexOfEmptyCardPlayer].card = {
-          rank: this.gameBoard.player.dealer.deck[0].rank,
-          suit: this.gameBoard.player.dealer.deck[0].suit,
-        };
-
-        this.gameBoard.player.dealer.deck.splice(0, 1);
-      }
+      arr.forEach((item) => {
+        this.drawCard(item);
+      });
     }
   }
 
@@ -139,12 +133,12 @@ class GwentStore {
     this.gameBoard.player.roundScore = 0;
     this.isOpponentPass = false;
     this.isPlayerPass = false;
-    //
-    // TODO: Add changes to round when start the next round. IF OPPONENT MOVES FIRTS DO MOVES !
-    //
     this.currentRound += 1;
     this.drawCardsFromDealer(3);
     this.opponentPairs = this.returnOpponentPairs();
+    if (!this.isPlayerMoveFirst) {
+      this.opponentsMove();
+    }
   }
 
   resetTheGame() {
@@ -187,21 +181,25 @@ class GwentStore {
     this.opponentPairs = [];
     this.opponentPairsCellToMove = [];
   }
-  // TODO: change when components will be implemented
+
   checkIsRoundWon() {
     if (this.isPlayerPass && this.isOpponentPass) {
       if (
         this.gameBoard.player.roundScore > this.gameBoard.opponent.roundScore
       ) {
+        // add point to player's score
         this.gameBoard.player.roundsWon =
           this.gameBoard.player.roundsWon === 0 ? 1 : 2;
-        console.log("player won", this.gameBoard.player.roundsWon);
+        // player moves first next round
+        this.isPlayerMoveFirst = true;
       } else if (
         this.gameBoard.player.roundScore < this.gameBoard.opponent.roundScore
       ) {
+        // add point to opponent's score
         this.gameBoard.opponent.roundsWon =
           this.gameBoard.opponent.roundsWon === 0 ? 1 : 2;
-        console.log("op won", this.gameBoard.opponent.roundsWon);
+        // opponent moves first next round
+        this.isPlayerMoveFirst = false;
       } else {
         console.log("DRAW");
       }
@@ -210,38 +208,36 @@ class GwentStore {
 
   setCardToPlay(chosenCard: CardData) {
     if (chosenCard.card !== undefined && this.cardToPlay === undefined) {
+      // card was not selected
       this.cardToPlay = chosenCard;
-      // console.log("choosen Card", chosenCard);
-      // console.log("this.chooseCard set", this.cardToPlay);
     } else if (chosenCard.id === this.cardToPlay?.id) {
+      // unselect prev selected card
       this.cardToPlay = undefined;
-      // console.log("choosen Card", chosenCard);
-      // console.log("this.chooseCard deleted", this.cardToPlay);
+    } else if (chosenCard.card && chosenCard.id !== this.cardToPlay?.id) {
+      // select diffirent card with already selected card
+      this.cardToPlay = chosenCard;
     }
   }
 
   moveCard(placeToMove: CardData) {
     if (
-      // for cards without perks
       placeToMove.card === undefined &&
       placeToMove.y < 3 &&
       this.cardToPlay !== undefined &&
       this.cardToPlay?.card?.rank !== "Joker"
     ) {
+      // for cards without perks
       this.moveToCell = placeToMove;
-      // console.log("move to", placeToMove);
-      // console.log("this.chooseCard from store", this.cardToPlay);
-      //
       this.playCards("player", "player");
       if (!this.isOpponentPass) {
         this.opponentsMove();
       }
     } else if (
-      // for Joker
       placeToMove.card === undefined &&
       placeToMove.y > 2 &&
       this.cardToPlay?.card?.rank === "Joker"
     ) {
+      // for Joker
       // place card on the field
       this.moveToCell = placeToMove;
       console.log("place joker", this.moveToCell.x, this.moveToCell.y);
@@ -256,37 +252,20 @@ class GwentStore {
 
   useJokerPerk(whoPlays: "opponent" | "player") {
     for (let i = 2; i > 0; i--) {
-      const indexOfEmptyCardPlayer = this.gameBoard[whoPlays].hand.findIndex(
-        (item) => item.card === undefined
-      );
-      if (indexOfEmptyCardPlayer !== -1) {
-        this.gameBoard[whoPlays].hand[indexOfEmptyCardPlayer].card = {
-          rank: this.gameBoard[whoPlays].dealer.deck[0].rank,
-          suit: this.gameBoard[whoPlays].dealer.deck[0].suit,
-        };
-
-        this.gameBoard[whoPlays].dealer.deck.splice(0, 1);
-      }
+      this.drawCard(whoPlays);
     }
   }
-  // DONE: add logic for random card in hand and random row to be choosen
-  // DONE: add more advanced logic when rounds flow will be implemented
-  // TODO: add more advanced logic when card's percs and advanced scoring
+
   opponentsMove() {
-    // DONE: findIndex to find
     if (
       !this.gameBoard.opponent.hand.find((item) => item.card !== undefined) ||
       (this.gameBoard.opponent.roundScore - this.gameBoard.player.roundScore >=
-        19 &&
+        15 &&
         this.currentRound === 1)
     ) {
       // opponent doesn't have enough cards in hand
       // opponent passes
       this.setIsOpponentPass();
-      console.log(
-        "out of cards or op score > player's score >= 15. is op won?",
-        this.gameBoard.opponent.roundScore
-      );
     } else if (
       this.isPlayerPass &&
       this.gameBoard.opponent.roundScore >= this.gameBoard.player.roundScore
@@ -295,10 +274,6 @@ class GwentStore {
       // opponent has enough score to win or draw the round
       // opponent passes
       this.setIsOpponentPass();
-      console.log(
-        "player pass. score op greater or draw. is op won?",
-        this.gameBoard.opponent.roundScore
-      );
     } else if (
       this.isPlayerPass &&
       this.gameBoard.opponent.roundScore < this.gameBoard.player.roundScore
@@ -307,11 +282,6 @@ class GwentStore {
       // player passed make a move
       this.opponentRandomMove();
       this.playCards("opponent", "opponent");
-
-      console.log(
-        "opponent makes another move",
-        this.gameBoard.opponent.roundScore
-      );
       // recursion
       // checking if the opponent has enough score to pass the round or not
       this.opponentsMove();
@@ -338,7 +308,6 @@ class GwentStore {
       // opponent makes a move
       // RANDOM
       this.opponentRandomMove();
-
       this.playCards("opponent", "opponent");
     }
   }
@@ -347,12 +316,10 @@ class GwentStore {
     whereToPlay: "opponent" | "player",
     whoPlays: "opponent" | "player"
   ) {
-    // TODO: add new values when card's percs are implemented
     const rowToPlaceCard =
       this.moveToCell?.y === 1 || this.moveToCell?.y === 4
         ? "nearRow"
         : "farRow";
-
     // search clicked cell in far row or near row, set card to cell if succses
     this.gameBoard[whereToPlay][rowToPlaceCard].rowItems.forEach((item) => {
       if (item.id === this.moveToCell?.id) {
@@ -382,7 +349,7 @@ class GwentStore {
     const cardsArr = this.gameBoard.opponent.hand.filter(
       (item) => item.card !== undefined && item.card.rank !== "Joker"
     );
-    const chosenCard = cardsArr[Math.floor(Math.random() * cardsArr.length)];
+    const chosenCard = this.selectRandomItemInArr(cardsArr);
     this.cardToPlay = chosenCard;
     // get random cell to place random card
     const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
@@ -392,18 +359,18 @@ class GwentStore {
           (item) => item.card === undefined
         )
       );
-    const chosenPlace =
-      emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
+    const chosenPlace = this.selectRandomItemInArr(emptyCellsArr);
     this.moveToCell = chosenPlace;
   }
 
   opponentPairMove() {
-    // TODO: refactoring
+    // select an item from arr that was placed on board
     this.cardToPlay = this.gameBoard.opponent.hand.find(
       (item) => item.card?.rank === this.opponentPairs[0]
     );
 
     if (this.opponentPairs.length % 2 === 0) {
+      // first card in pair
       const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
         .filter((item) => item.card === undefined && item.x % 2 === 0)
         .concat(
@@ -412,11 +379,10 @@ class GwentStore {
           )
         );
 
-      const chosenPlace =
-        emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
+      const chosenPlace = this.selectRandomItemInArr(emptyCellsArr);
       this.moveToCell = chosenPlace;
-      console.log("first card in pair");
     } else {
+      // second card in pair
       const emptyCellsArr = this.gameBoard.opponent.farRow.rowItems
         .filter(
           (item, index, arr) =>
@@ -434,9 +400,8 @@ class GwentStore {
 
       const chosenPlace = emptyCellsArr[0];
       this.moveToCell = chosenPlace;
-      console.log("second card in pair");
     }
-
+    // delete an item from arr that was placed on board
     this.opponentPairs.shift();
   }
 
@@ -456,8 +421,7 @@ class GwentStore {
           (item) => item.card === undefined
         )
       );
-    const chosenPlace =
-      emptyCellsArr[Math.floor(Math.random() * emptyCellsArr.length)];
+    const chosenPlace = this.selectRandomItemInArr(emptyCellsArr);
     this.moveToCell = chosenPlace;
 
     console.log("place joker", this.moveToCell.x, this.moveToCell.y);
@@ -493,6 +457,10 @@ class GwentStore {
       }
     }
     return results;
+  }
+
+  selectRandomItemInArr(cardDataArr: CardData[]): CardData {
+    return cardDataArr[Math.floor(Math.random() * cardDataArr.length)];
   }
 }
 
