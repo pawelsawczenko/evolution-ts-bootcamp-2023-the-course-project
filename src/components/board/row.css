@@ -18,6 +18,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 1fr 1fr;
+  border-radius: 10px 0 0 10px;
 }
 .score {
   display: flex;
@@ -177,10 +178,10 @@
   /* padding: 10px; */
 }
 .player-side .hand {
-  border-radius: 0 0 25px 0;
+  border-radius: 10px 0 25px 10px;
 }
 .opponent-side .hand {
-  border-radius: 0 25px 0 0;
+  border-radius: 10px 25px 0 10px;
 }
 .dealer {
   width: calc(var(--width-cell) * 1.5);

@@ -8,9 +8,10 @@ body {
     rgba(0, 73, 16, 1) 100%
   );
   /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
-  background-image: linear-gradient(to right, #344770, #2ebf91);
+  /* background-image: linear-gradient(to right, #344770, #2ebf91); */
   /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
   /* background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); */
+  background-image: linear-gradient(to right, #8360c3, #2ebf91);
   background-size: 400% 400%;
   animation: gradient 16s ease infinite;
 }
