@@ -26,7 +26,6 @@ export const PopUp: React.FC<PopUpProps> = ({ setPopUpHidden }) => {
       ? `You won the round`
       : "Draw!";
 
-  // TODO: all on click (useCallback, useMemo)?
   const onClickPopUp = React.useCallback(() => {
     if (
       gwentStore.gameBoard.opponent.roundsWon === 2 ||

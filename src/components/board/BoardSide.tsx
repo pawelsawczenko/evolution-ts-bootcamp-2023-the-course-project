@@ -3,13 +3,12 @@ import { observer } from "mobx-react";
 import { CardData } from "../../types";
 
 import "./row.css";
-import { PlayerHandObserver } from "./player/PlayerHand";
-import { OpponentHandObserver } from "./opponent/OpponentHand";
 import { RowComponent } from "./Row";
 
 import { gwentStore } from "../../stores/GameStore";
+import { HandObserver } from "./Hand";
 
-interface BoardSideProps {
+export interface BoardSideProps {
   whoseSide: "player" | "opponent";
 }
 
@@ -24,11 +23,11 @@ const BoardSide: React.FC<BoardSideProps> = ({ whoseSide }) => {
     <div className="player-side">
       <RowComponent rowItems={farRow} score={farRowScore}></RowComponent>
       <RowComponent rowItems={nearRow} score={nearRowScore}></RowComponent>
-      <PlayerHandObserver></PlayerHandObserver>
+      <HandObserver whoseSide={whoseSide}></HandObserver>
     </div>
   ) : (
     <div className="opponent-side">
-      <OpponentHandObserver></OpponentHandObserver>
+      <HandObserver whoseSide={whoseSide}></HandObserver>
       <RowComponent rowItems={nearRow} score={nearRowScore}></RowComponent>
       <RowComponent rowItems={farRow} score={farRowScore}></RowComponent>
     </div>

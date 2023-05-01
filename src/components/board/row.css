@@ -127,27 +127,27 @@
   width: var(--suit-size-large);
   height: var(--suit-size-large);
 }
-.suit-center,
+.card .suit-center,
 .card-back img {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.suit-before,
+/* .suit-before,
 .suit-after {
   width: var(--suit-size-small);
   height: var(--suit-size-small);
   position: absolute;
-}
-.suit-before {
+} */
+/* .suit-before {
   left: 10%;
   top: 22%;
 }
 .suit-after {
   right: 10%;
   bottom: 22%;
-}
+} */
 .joker {
   width: var(--joker-size-width-large);
   height: var(--joker-size-height-large);

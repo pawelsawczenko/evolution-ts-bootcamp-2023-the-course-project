@@ -1,33 +1,34 @@
 import React from "react";
-import { PlayerHandCell } from "./PlayerHandCell";
 
-import "../row.css";
-import { gwentStore } from "../../../stores/GameStore";
+import "./row.css";
+import { gwentStore } from "../../stores/GameStore";
 import { observer } from "mobx-react-lite";
-import { BackDesignComponent } from "../Cell";
+import { BackDesignComponent } from "./Cell";
+import { HandCellObserver } from "./HandCell";
 
-// TODO: refactir with opponent hand
-const PlayerHand: React.FC = () => {
-  const { hand } = gwentStore.gameBoard.player;
-  const numberOfDealerCards = gwentStore.gameBoard.player.dealer.deck.length;
+interface HandProps {
+  whoseSide: "opponent" | "player";
+}
+
+const Hand: React.FC<HandProps> = ({ whoseSide }) => {
+  const { hand } = gwentStore.gameBoard[whoseSide];
+  const numberOfDealerCards =
+    gwentStore.gameBoard[whoseSide].dealer.deck.length;
 
   return (
     <div className="hand row-template">
       <div className="row">
         {hand.map((item) => {
           return (
-            <PlayerHandCell
+            <HandCellObserver
               key={item.id}
-              id={item.id}
-              card={item.card}
-              x={item.x}
-              y={item.y}
-            ></PlayerHandCell>
+              cardData={item}
+              whoseSide={whoseSide}
+            ></HandCellObserver>
           );
         })}
       </div>
       <div className="dealer">
-        {/* <h2>dealer</h2> */}
         {numberOfDealerCards !== 0 ? (
           <div className="back-desight">
             <BackDesignComponent />
@@ -43,4 +44,4 @@ const PlayerHand: React.FC = () => {
   );
 };
 
-export const PlayerHandObserver = observer(PlayerHand);
+export const HandObserver = observer(Hand);

@@ -2,10 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./gamerules.css";
-import Hearts from "../../assets/Hearts.svg";
-import Diamonds from "../../assets/Diamonds.svg";
-import Clubs from "../../assets/Clubs.svg";
-import Spades from "../../assets/Spades.svg";
+import { Suit } from "../board/Suit";
 
 export const GameRules: React.FC = () => {
   const navigate = useNavigate();
@@ -58,13 +55,13 @@ export const GameRules: React.FC = () => {
         </p>
       </div>
       <div id="main">
-        <img className="suit" src={Diamonds} alt={`suit Diamonds`} />
-        <img className="suit" src={Hearts} alt={`suit Hearts`} />
+        <Suit suit="Diamonds" rank="2" />
+        <Suit suit="Hearts" rank="2" />
         <button className="btn btn-main" onClick={backToMainPage}>
           Back to main page
         </button>
-        <img className="suit" src={Spades} alt={`suit Spades`} />
-        <img className="suit" src={Clubs} alt={`suit Clubs`} />
+        <Suit suit="Spades" rank="2" />
+        <Suit suit="Clubs" rank="2" />
       </div>
     </div>
   );

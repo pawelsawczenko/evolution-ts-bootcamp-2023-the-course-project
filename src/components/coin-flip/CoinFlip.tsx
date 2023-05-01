@@ -8,6 +8,31 @@ import RedChip from "../../assets/RedChip.svg";
 
 import "./coinflip.css";
 
+const MAP = {
+  BlackChip: {
+    src: BlackChip,
+    alt: "black poker chip",
+  },
+  RedChip: {
+    src: RedChip,
+    alt: "red poker chip",
+  },
+};
+
+interface ChipProps {
+  whatChip: "RedChip" | "BlackChip";
+}
+
+export const Chip: React.FC<ChipProps> = ({ whatChip }) => {
+  const { src, alt } = MAP[whatChip];
+
+  return (
+    <>
+      <img src={src} alt={alt} />
+    </>
+  );
+};
+
 export const CoinFlip: React.FC = () => {
   const [coinAnimation, setCoinAnimation] = useState({});
   const [btnFlipHidden, setBtnFlipHidden] = useState("");
@@ -49,14 +74,8 @@ export const CoinFlip: React.FC = () => {
         <div className="coin-wrapper">
           <h2 className="text">{text}</h2>
           <div className="coin" id="coin" style={coinAnimation}>
-            {/* <div className="heads">
-            <img src={RedChip} alt="red poker chip" />
-          </div>
-          <div className="tails">
-            <img src={BlackChip} alt="black poker chip" />
-          </div> */}
             <div className="heads">
-              <img src={RedChip} alt="red poker chip" />
+              <Chip whatChip="RedChip" />
             </div>
             <div className="middle"></div>
             <div className="middle"></div>
@@ -68,7 +87,7 @@ export const CoinFlip: React.FC = () => {
             <div className="middle"></div>
             <div className="middle"></div>
             <div className="tails">
-              <img src={BlackChip} alt="black poker chip" />
+              <Chip whatChip="BlackChip" />
             </div>
           </div>
           <div className="btns">

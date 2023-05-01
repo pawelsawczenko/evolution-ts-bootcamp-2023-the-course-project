@@ -1,14 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import { OpponentSideObserver } from "./opponent/Opponent";
-import { OpponentStatsObserver } from "./opponent/OpponentStats";
-// import { PlayerSideObserver } from "./player/Player";
-import { PlayerStatsAndInputObserver } from "./player/PlayerStatsAndInput";
+import { PlayerInput } from "./player/PlayerInput";
 import { BoardSideObserver } from "./BoardSide";
 
 import "./gameboard.css";
 import { gwentStore } from "../../stores/GameStore";
 import { PopUpContainerObserver } from "./pop-ups/PopUpContainer";
+import { StatsObserver } from "./Stats";
 
 export const GameBoard: React.FC = () => {
   const navigate = useNavigate();
@@ -24,14 +22,11 @@ export const GameBoard: React.FC = () => {
     <>
       <div id="gameboard-container">
         <div className="gameboard">
-          {/* <OpponentStatsObserver></OpponentStatsObserver>
-        <OpponentSideObserver></OpponentSideObserver>
-
-        <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
-        <PlayerSideObserver></PlayerSideObserver> */}
-          <OpponentStatsObserver></OpponentStatsObserver>
+          <StatsObserver whoseSide="opponent"></StatsObserver>
           <BoardSideObserver whoseSide="opponent"></BoardSideObserver>
-          <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
+          <StatsObserver whoseSide="player">
+            <PlayerInput />
+          </StatsObserver>
           <BoardSideObserver whoseSide="player"></BoardSideObserver>
         </div>
       </div>
