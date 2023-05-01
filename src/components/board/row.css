@@ -56,7 +56,9 @@
 
   background-color: transparent;
 }
-.card {
+.card,
+.row-template:not(.hand) .card-front,
+.card-back {
   width: var(--width-cell);
   height: var(--height-cell);
   background-color: white;
@@ -91,9 +93,9 @@
 }
 .row-template:not(.hand) .card-front {
   /* rotating the front face of the card */
-  -ms-transform: rotateY(180deg); /* IE 9 */
-  -webkit-transform: rotateY(180deg); /* Safari */
-  transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg) translateZ(1px); /* IE 9 */
+  -webkit-transform: rotateY(180deg) translateZ(1px); /* Safari */
+  transform: rotateY(180deg) translateZ(1px);
 }
 .card-back img {
   width: var(--width-cell);
@@ -109,6 +111,9 @@
   z-index: 10;
   border: 2px black solid;
 }
+/* .card-selected .card-front {
+  
+} */
 .Hearts,
 .Diamonds {
   color: red;

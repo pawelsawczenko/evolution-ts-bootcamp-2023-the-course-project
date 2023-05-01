@@ -6,12 +6,41 @@
   height: 100%;
 }
 .gameboard {
+  width: 82rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 }
 .stats {
-  padding-left: 10px;
+  width: 14rem;
+  padding: 1rem;
   color: aliceblue;
   border: solid 3px darkblue;
+}
+.player-inputs {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.player-inputs .btn {
+  margin: 1rem;
+}
+.rounds-won {
+  display: inline-block;
+}
+.rounds-won img {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 9999px;
+  margin: 0 5px;
+}
+.rounds-won .empty-chip {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0, 0, 0, 0.315);
+  border-radius: 9999px;
+  margin: 0 5px;
 }

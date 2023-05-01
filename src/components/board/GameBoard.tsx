@@ -21,19 +21,21 @@ export const GameBoard: React.FC = () => {
   });
 
   return (
-    <div id="gameboard-container">
-      <div className="gameboard">
-        {/* <OpponentStatsObserver></OpponentStatsObserver>
+    <>
+      <div id="gameboard-container">
+        <div className="gameboard">
+          {/* <OpponentStatsObserver></OpponentStatsObserver>
         <OpponentSideObserver></OpponentSideObserver>
 
         <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
         <PlayerSideObserver></PlayerSideObserver> */}
-        <OpponentStatsObserver></OpponentStatsObserver>
-        <BoardSideObserver whoseSide="opponent"></BoardSideObserver>
-        <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
-        <BoardSideObserver whoseSide="player"></BoardSideObserver>
+          <OpponentStatsObserver></OpponentStatsObserver>
+          <BoardSideObserver whoseSide="opponent"></BoardSideObserver>
+          <PlayerStatsAndInputObserver></PlayerStatsAndInputObserver>
+          <BoardSideObserver whoseSide="player"></BoardSideObserver>
+        </div>
       </div>
       <PopUpContainerObserver></PopUpContainerObserver>
-    </div>
+    </>
   );
 };

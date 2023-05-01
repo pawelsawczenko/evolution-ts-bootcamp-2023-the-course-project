@@ -1,9 +1,14 @@
+html {
+  font-size: 16px;
+}
 :root {
-  --width-cell: 80px;
+  --width-cell: 5rem;
+  /* --width-cell: 80px;  */
   --height-cell: calc(var(--width-cell) * 1.4);
-  --suit-size-large: 48px;
-  --suit-size-small: 12px;
-  --joker-size-width-large: 80px;
+  --suit-size-large: 3rem;
+  /* --suit-size-large: 48px; */
+  --joker-size-width-large: 5rem;
+  /* --joker-size-width-large: 80px; */
   --joker-size-height-large: calc(var(--joker-size-width-large) * 1.5);
   --row-color: rgba(226, 226, 226, 0.5);
   --hand-color: rgba(114, 89, 51, 0.5);
