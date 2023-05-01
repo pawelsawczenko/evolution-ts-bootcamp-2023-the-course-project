@@ -7,6 +7,15 @@ body {
     rgba(79, 129, 91, 1) 0%,
     rgba(0, 73, 16, 1) 100%
   );
+  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+  background-image: linear-gradient(to right, #344770, #2ebf91);
+  /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
+  /* background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); */
+  background-size: 400% 400%;
+  animation: gradient 16s ease infinite;
+}
+.App {
+  background-image: radial-gradient(#00000000, #0000004f);
 }
 html,
 body,
@@ -23,4 +32,17 @@ body,
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }

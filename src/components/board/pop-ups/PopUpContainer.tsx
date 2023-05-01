@@ -10,6 +10,9 @@ const PopUpContainer: React.FC = () => {
 
   React.useEffect(() => {
     if (gwentStore.isOpponentPass && gwentStore.isPlayerPass) {
+      // setTimeout(() => {
+      //   setPopUpHidden("");
+      // }, 1500);
       setPopUpHidden("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

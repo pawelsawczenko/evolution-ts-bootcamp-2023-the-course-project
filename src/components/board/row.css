@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   width: calc(var(--width-cell) * 1.5);
-  border: 1px salmon solid;
+  /* border: 1px salmon solid; */
 }
 .row {
   width: calc(var(--width-cell) * 12);
@@ -37,7 +37,7 @@
 }
 .player-side,
 .opponent-side {
-  border: 3px solid darkolivegreen;
+  /* border: 3px solid darkolivegreen; */
 }
 .empty-cell {
   width: var(--width-cell);
@@ -173,11 +173,18 @@
 .player-side .hand,
 .opponent-side .hand {
   background-color: var(--hand-color);
+  border-radius: 0 0 25px 0;
   /* padding: 10px; */
+}
+.player-side .hand {
+  border-radius: 0 0 25px 0;
+}
+.opponent-side .hand {
+  border-radius: 0 25px 0 0;
 }
 .dealer {
   width: calc(var(--width-cell) * 1.5);
-  border: 1px salmon solid;
+  /* border: 1px salmon solid; */
   position: relative;
 }
 .dealer-cards-number,

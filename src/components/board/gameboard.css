@@ -10,12 +10,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+
+  background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+  border-radius: 25px;
 }
 .stats {
   width: 14rem;
   padding: 1rem;
   color: aliceblue;
-  border: solid 3px darkblue;
+  /* border: solid 3px darkblue; */
 }
 .player-inputs {
   margin: 1rem;
@@ -40,7 +43,7 @@
   display: inline-block;
   width: 18px;
   height: 18px;
-  background-color: rgba(0, 0, 0, 0.315);
+  background-color: rgba(255, 255, 255, 0.315);
   border-radius: 9999px;
   margin: 0 5px;
 }
