@@ -11,7 +11,6 @@
 .coin-wrapper {
   width: 360px;
   padding: 20px;
-  box-shadow: 15px 30px 35px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   -webkit-perspective: 300px;
   perspective: 300px;
@@ -140,4 +139,17 @@
   text-align: center;
   height: 24px;
   color: #e1e0ee;
+}
+@media all and (max-width: 960px) {
+  .wrapper {
+    height: 92%;
+  }
+  .coin {
+    height: 100px;
+    width: 100px;
+    margin: 25px auto;
+  }
+  .middle {
+    background-image: none;
+  }
 }

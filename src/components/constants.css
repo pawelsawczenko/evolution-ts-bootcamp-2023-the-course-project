@@ -60,6 +60,13 @@ html {
     --joker-size-width-large: 4rem;
   }
 }
+@media all and (max-width: 960px) {
+  :root {
+    --width-cell: 2.5rem;
+    --suit-size-large: 1.5rem;
+    --joker-size-width-large: 2.5rem;
+  }
+}
 
 @media all and (min-width: 1600px) {
   html {

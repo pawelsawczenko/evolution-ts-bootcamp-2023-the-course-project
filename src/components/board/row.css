@@ -197,3 +197,21 @@
   width: var(--width-cell);
   height: var(--height-cell);
 }
+@media (max-width: 960px) {
+  .row {
+    height: calc(var(--height-cell) * 1.2);
+  }
+  .card .suit-center:not(.joker) {
+    left: 65%;
+    top: 65%;
+  }
+  .rank-after {
+    display: none;
+  }
+  .dealer {
+    width: calc(var(--width-cell) * 1.1);
+  }
+  .score h3 {
+    padding-right: 20px;
+  }
+}

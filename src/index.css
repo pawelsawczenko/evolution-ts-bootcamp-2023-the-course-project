@@ -3,19 +3,6 @@
 * {
   box-sizing: border-box;
 }
-body {
-  background: radial-gradient(
-    circle,
-    rgba(79, 129, 91, 1) 0%,
-    rgba(0, 73, 16, 1) 100%
-  );
-  background-image: linear-gradient(to right, #8360c3, #2ebf91);
-  background-size: 400% 400%;
-  animation: gradient 16s ease infinite;
-}
-.App {
-  background-image: radial-gradient(#00000000, #0000004f);
-}
 html,
 body,
 #root {
@@ -31,7 +18,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+body {
+  background: radial-gradient(
+    circle,
+    rgba(79, 129, 91, 1) 0%,
+    rgba(0, 73, 16, 1) 100%
+  );
+  background-image: linear-gradient(to right, #8360c3, #2ebf91);
+  background-size: 400% 400%;
+  animation: gradient 16s ease infinite;
+}
 #root {
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);

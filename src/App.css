@@ -1,7 +1,12 @@
 .App {
-  border: 5px solid #282c34;
+  /* border: 5px solid #282c34; */
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media all and (max-width: 960) and (orientation: portrait) {
+  .App {
+    transform: rotate(90deg);
+  }
 }
