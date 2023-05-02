@@ -1,0 +1,199 @@
+@import "../constants.css";
+
+@keyframes card-flip {
+  from {
+    -ms-transform: rotateY(0); /* IE 9 */
+    -webkit-transform: rotateY(0); /* Safari Chrome */
+    transform: rotateY(0);
+  }
+  to {
+    -ms-transform: rotateY(180deg); /* IE 9 */
+    -webkit-transform: rotateY(180deg); /* Safari Chrome */
+    transform: rotateY(180deg);
+  }
+}
+.row-template {
+  background-color: var(--row-color);
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 10px 0 0 10px;
+}
+.score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--width-cell) * 1.5);
+  color: var(--text-color-light);
+}
+.row {
+  width: calc(var(--width-cell) * 12);
+  height: calc(var(--height-cell) * 1.1);
+  padding: 5px;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(10, 1fr);
+  /* grid-row-gap: 2em; */
+}
+.player-side {
+  border-top: 1px solid var(--text-color-light);
+  border-radius: 10px;
+}
+.opponent-side {
+  border-bottom: 1px solid var(--text-color-light);
+  border-radius: 10px;
+}
+.empty-cell {
+  width: var(--width-cell);
+  height: var(--height-cell);
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.315);
+  border-radius: 0.5em;
+  box-shadow: 0.2em 0.2em 1.2em rgba(0, 0, 0, 0.1);
+}
+
+/* cards */
+.card-wrapper {
+  perspective: 800px;
+  width: var(--width-cell);
+  height: var(--height-cell);
+
+  background-color: transparent;
+}
+.card,
+.row-template:not(.hand) .card-front,
+.card-back {
+  width: var(--width-cell);
+  height: var(--height-cell);
+  background-color: var(--text-color-light);
+  border-radius: 0.5em;
+  box-shadow: 0.2em 0.2em 1.2em rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  -webkit-transition: transform 0.3s; /* Safari and Chrome */
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+}
+.player-side .row-template:not(.hand) .card,
+.opponent-side .row-template:not(.hand) .card {
+  -webkit-animation: card-flip 0.8s forwards; /* for less modern browsers */
+  animation: card-flip 0.8s forwards;
+}
+.opponent-side .row-template:not(.hand) .card,
+.opponent-side .row-template:not(.hand) .card {
+  animation-delay: 0.8s;
+}
+.opponent-side .row-template:not(.hand) div.JokerRed,
+.opponent-side .row-template:not(.hand) div.JokerBlack {
+  animation-delay: 0s;
+}
+.row-template:not(.hand) .card-front,
+.row-template:not(.hand) .card-back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+.row-template:not(.hand) .card-front {
+  /* rotating the front face of the card */
+  -ms-transform: rotateY(180deg) translateZ(1px); /* IE 9 */
+  -webkit-transform: rotateY(180deg) translateZ(1px); /* Safari */
+  transform: rotateY(180deg) translateZ(1px);
+}
+.card-back img {
+  width: var(--width-cell);
+  height: var(--height-cell);
+}
+.hand .card:hover {
+  transform: scale(1.1);
+  z-index: 9;
+  box-shadow: 0.2em 0.2em 1.2em rgba(0, 0, 0, 0.3);
+}
+.card-selected {
+  transform: scale(1.1);
+  z-index: 10;
+  border: 2px black solid;
+}
+/* .card-selected .card-front {
+  
+} */
+.Hearts,
+.Diamonds {
+  color: red;
+}
+.Clubs,
+.Spades {
+  color: black;
+}
+.suit {
+  width: var(--suit-size-large);
+  height: var(--suit-size-large);
+}
+.card .suit-center,
+.card-back img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.joker {
+  width: var(--joker-size-width-large);
+  height: var(--joker-size-height-large);
+}
+.JokerRed .rank,
+.JokerBlack .rank {
+  color: rgba(255, 255, 255, 0.1);
+}
+.rank {
+  font-weight: bold;
+  position: absolute;
+  font-size: 1.2rem;
+}
+.rank-before {
+  left: 10%;
+  top: 5%;
+}
+.rank-after {
+  right: 10%;
+  bottom: 5%;
+}
+
+/* hand */
+.player-side .hand,
+.opponent-side .hand {
+  background-color: var(--hand-color);
+  border-radius: 0 0 25px 0;
+}
+.player-side .hand {
+  border-radius: 10px 0 25px 10px;
+}
+.opponent-side .hand {
+  border-radius: 10px 25px 0 10px;
+}
+.dealer {
+  width: calc(var(--width-cell) * 1.5);
+  position: relative;
+}
+.dealer-cards-number,
+.back-desight img,
+.dealer .empty-cell {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.dealer-cards-number {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 30px;
+  border-radius: 9999px;
+  text-align: center;
+}
+.dealer-cards-number h3 {
+  color: var(--text-color-light);
+  margin: 5px 0;
+}
+.back-desight img {
+  width: var(--width-cell);
+  height: var(--height-cell);
+}

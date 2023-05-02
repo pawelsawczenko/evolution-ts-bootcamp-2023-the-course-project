@@ -1,0 +1,120 @@
+@import "../constants.css";
+
+#gameboard-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.gameboard {
+  width: 82rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+  border-radius: 25px;
+}
+.stats {
+  width: 14rem;
+  padding: 1rem;
+  color: var(--text-color-light);
+  /* border: solid 3px darkblue; */
+}
+.opponent-stats {
+  border-bottom: 1px solid var(--text-color-light);
+  border-radius: 10px;
+}
+.player-stats {
+  border-top: 1px solid var(--text-color-light);
+  border-radius: 10px;
+}
+.player-inputs {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.player-inputs .btn {
+  margin: 1rem;
+}
+.rounds-won {
+  display: inline-block;
+}
+.rounds-won img {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 9999px;
+  margin: 0 5px;
+}
+.rounds-won .empty-chip {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.315);
+  border-radius: 9999px;
+  margin: 0 5px;
+}
+
+@media all and (max-width: 1200px) {
+  .gameboard {
+    width: 68rem;
+    height: 37.1rem;
+  }
+  .player-inputs {
+    flex-direction: row-reverse;
+  }
+  .player-inputs .btn {
+    margin: 1rem 5px;
+  }
+}
+
+/* @media all and (max-width: 1024px) {
+  .gameboard {
+    width: 68rem;
+    height: 37.1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    overflow: hidden;
+  }
+  .player-inputs {
+    flex-direction: row-reverse;
+  }
+  .player-inputs .btn {
+    margin: 1rem 5px;
+  }
+  .stats {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .stats h2 {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  .player-inputs {
+    margin: 1rem;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  .player-inputs .btn {
+    margin: 1rem;
+  }
+  .rounds-won {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  .current-score {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  .isPass {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+} */

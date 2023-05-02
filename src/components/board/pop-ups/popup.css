@@ -1,0 +1,38 @@
+@import "../../constants.css";
+
+.pop-up-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+}
+div.pop-up-hidden {
+  display: none;
+}
+.pop-up-wrapper {
+  width: 100%;
+  height: 40%;
+  background-color: rgba(0, 0, 0, 0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pop-up {
+  color: var(--text-color-light);
+}
+.pop-up h2 {
+  text-align: center;
+}
+.round-scoring {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  margin-bottom: 10px;
+}

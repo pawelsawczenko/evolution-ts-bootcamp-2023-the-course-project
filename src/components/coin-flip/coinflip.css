@@ -1,0 +1,143 @@
+@import "../constants.css";
+
+.wrapper {
+  width: 100%;
+  height: 55%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.coin-wrapper {
+  width: 360px;
+  padding: 20px;
+  box-shadow: 15px 30px 35px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  -webkit-perspective: 300px;
+  perspective: 300px;
+}
+.coin {
+  height: 150px;
+  width: 150px;
+  position: relative;
+  margin: 40px auto;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.heads,
+.tails {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.tails {
+  transform: rotateX(180deg);
+}
+
+.tails {
+  width: 100%;
+  height: 100%;
+  background-color: whitesmoke;
+  border-radius: 9999px;
+  border: 3px whitesmoke solid;
+}
+
+.middle {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/133687/faceeuro.png");
+  width: 100%;
+  height: 100%;
+  transform: translateZ(1px);
+  position: absolute;
+  top: 0;
+}
+
+.heads {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transform: translateZ(10px);
+  width: 100%;
+  background-color: whitesmoke;
+  border-radius: 9999px;
+  border: 3px whitesmoke solid;
+}
+.heads img,
+.tails img {
+  width: 100%;
+  height: 100%;
+}
+
+.middle:nth-child(1) {
+  transform: translateZ(1px);
+}
+
+.middle:nth-child(2) {
+  transform: translateZ(2px);
+}
+
+.middle:nth-child(3) {
+  transform: translateZ(3px);
+}
+
+.middle:nth-child(4) {
+  transform: translateZ(4px);
+}
+
+.middle:nth-child(5) {
+  transform: translateZ(5px);
+}
+
+.middle:nth-child(6) {
+  transform: translateZ(6px);
+}
+
+.middle:nth-child(7) {
+  transform: translateZ(7px);
+}
+
+.middle:nth-child(8) {
+  transform: translateZ(8px);
+}
+
+.middle:nth-child(9) {
+  transform: translateZ(9px);
+}
+
+.heads-wins {
+  animation: spin-heads 3s forwards;
+  animation-delay: 0.2s;
+}
+.tails-wins {
+  animation: spin-tails 3s forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes spin-tails {
+  0% {
+    transform: rotateX(0);
+  }
+  100% {
+    transform: rotateX(1800deg);
+  }
+}
+@keyframes spin-heads {
+  0% {
+    transform: rotateX(0);
+  }
+  100% {
+    transform: rotateX(1980deg);
+  }
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+}
+
+.text {
+  text-align: center;
+  height: 24px;
+  color: #e1e0ee;
+}
