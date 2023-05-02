@@ -43,17 +43,17 @@ export const PopUp: React.FC<PopUpProps> = ({ setPopUpHidden }) => {
   return (
     <div className="pop-up">
       <h2>{isGameWon || whoWonRound}</h2>
-      <h3>
-        opponent - {gwentStore.gameBoard.opponent.roundsWon} round score -{" "}
-        {gwentStore.gameBoard.opponent.roundScore}
-      </h3>
-      <h3>
-        player - {gwentStore.gameBoard.player.roundsWon} round score -{" "}
-        {gwentStore.gameBoard.player.roundScore}
-      </h3>
-      <button className="btn btn-main" onClick={onClickPopUp}>
-        close pop up
-      </button>
+      <div className="round-scoring">
+        <h3>Opponent : {gwentStore.gameBoard.opponent.roundsWon}</h3>
+        <h3>Player : {gwentStore.gameBoard.player.roundsWon}</h3>
+        <h3>Round score : {gwentStore.gameBoard.opponent.roundScore}</h3>
+        <h3>Round score : {gwentStore.gameBoard.player.roundScore}</h3>
+      </div>
+      <div className="btns">
+        <button className="btn btn-main" onClick={onClickPopUp}>
+          Continue
+        </button>
+      </div>
     </div>
   );
 };

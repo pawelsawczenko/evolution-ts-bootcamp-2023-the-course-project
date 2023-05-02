@@ -1,5 +1,5 @@
 html {
-  font-size: 16px;
+  font-size: 14px;
 }
 :root {
   --width-cell: 5rem;
@@ -10,6 +10,70 @@ html {
   --joker-size-width-large: 5rem;
   /* --joker-size-width-large: 80px; */
   --joker-size-height-large: calc(var(--joker-size-width-large) * 1.5);
-  --row-color: rgba(226, 226, 226, 0.5);
-  --hand-color: rgba(114, 89, 51, 0.5);
+  --row-color: rgba(226, 226, 226, 0.05);
+  --hand-color: rgba(114, 89, 51, 0.3);
+  --text-color-light: aliceblue;
+}
+
+.btn {
+  width: 7.5rem;
+  padding: 10px 0;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 3px solid #ffffff;
+}
+.btn-main {
+  border-color: #ffffff;
+  background-color: #424ae0;
+  color: #ffffff;
+}
+.btn-main:hover {
+  background-color: #ffffff;
+  color: #424ae0;
+  border-color: #424ae0;
+}
+.btn-quit {
+  border-color: #ffffff;
+  background-color: #8d1a1a;
+  color: #ffffff;
+}
+.btn-quit:hover {
+  border-color: #8d1a1a;
+  background-color: #ffffff;
+  color: #8d1a1a;
+}
+
+.btn:disabled {
+  background-color: #e1e0ee;
+  border-color: #e1e0ee;
+  color: #101020;
+}
+.btn-hidden {
+  display: none;
+}
+
+@media all and (max-width: 1200px) {
+  :root {
+    --width-cell: 4rem;
+    --suit-size-large: 2rem;
+    --joker-size-width-large: 4rem;
+  }
+}
+
+@media all and (min-width: 1600px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media all and (min-width: 2400px) {
+  html {
+    font-size: 20px;
+  }
+}
+@media all and (min-width: 2540px) {
+  html {
+    font-size: 30px;
+  }
 }

@@ -19,9 +19,9 @@ export const Main: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Gwent-based Game</h1>
-      <div id="main">
+    <div id="main">
+      <h1>Gwent-based Card Game</h1>
+      <div className="main-buttons">
         <Suit suit="Diamonds" rank="2" />
         <Suit suit="Hearts" rank="2" />
         <button className="btn btn-main" onClick={startGame}>
@@ -31,9 +31,9 @@ export const Main: React.FC = () => {
         <Suit suit="Clubs" rank="2" />
       </div>
 
-      <div className="rules-button">
+      <div className="main-buttons">
         <button className="btn btn-main" onClick={toGameRules}>
-          Game Rules
+          The Rules
         </button>
       </div>
     </div>

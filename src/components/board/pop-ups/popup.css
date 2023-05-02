@@ -1,3 +1,5 @@
+@import "../../constants.css";
+
 .pop-up-container {
   position: absolute;
   left: 0;
@@ -23,5 +25,14 @@ div.pop-up-hidden {
   justify-content: center;
 }
 .pop-up {
-  color: aliceblue;
+  color: var(--text-color-light);
+}
+.pop-up h2 {
+  text-align: center;
+}
+.round-scoring {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  margin-bottom: 10px;
 }

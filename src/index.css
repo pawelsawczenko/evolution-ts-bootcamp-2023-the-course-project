@@ -1,3 +1,5 @@
+@import "./components/constants.css";
+
 * {
   box-sizing: border-box;
 }
@@ -7,10 +9,6 @@ body {
     rgba(79, 129, 91, 1) 0%,
     rgba(0, 73, 16, 1) 100%
   );
-  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
-  /* background-image: linear-gradient(to right, #344770, #2ebf91); */
-  /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
-  /* background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); */
   background-image: linear-gradient(to right, #8360c3, #2ebf91);
   background-size: 400% 400%;
   animation: gradient 16s ease infinite;
@@ -29,11 +27,16 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#root {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;

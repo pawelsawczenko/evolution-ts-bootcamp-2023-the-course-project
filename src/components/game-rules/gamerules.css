@@ -1,21 +1,45 @@
 @import "../constants.css";
 
-.rules {
-  font-size: 16px;
-  text-align: center;
-  padding: 45px;
-  color: aliceblue;
-  background: radial-gradient(rgba(0, 73, 16, 1), transparent 70%);
+#game-rules {
+  max-width: 1024px;
+  min-width: 360px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+
+  background: radial-gradient(#00000054, transparent 70%);
 }
-.card-combination-name,
-.card-combination,
-.score-bust {
+#game-rules .btn {
+  margin: 15px;
+}
+.rules {
+  font-size: 1.1rem;
+  padding: 45px;
+  margin-bottom: 15px;
+  color: var(--text-color-light);
+  max-height: 535px;
+  overflow-y: auto;
+  /* Works on Firefox */
+  scrollbar-color: #6969dd #e0e0e0;
+  scrollbar-width: thin;
+}
+/* Works on Chrome, Edge, and Safari */
+.rules::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: #8070d4;
+  border: 6px solid rgba(0, 0, 0, 0.2);
+}
+.rules::-webkit-scrollbar {
+  width: 12px;
+}
+.rules::-webkit-scrollbar-track {
+  background: #70d4c36c;
+  border-radius: 100px;
+}
+span.highlight-text {
   font-weight: bold;
   font-style: italic;
-  font-size: 18px;
-}
-.card-combination-name,
-.card-combination,
-.score-bust {
   color: black;
 }

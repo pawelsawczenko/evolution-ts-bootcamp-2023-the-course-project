@@ -23,7 +23,7 @@ const Stats: React.FC<StatsProps> = ({ whoseSide, children }) => {
     : "is playing";
 
   return (
-    <div className="stats opponent-stats">
+    <div className={`stats ${whoseSide}-stats`}>
       <h2>{name}</h2>
       <div className="rounds-score">
         <span>Rounds won: </span>
@@ -46,13 +46,13 @@ const Stats: React.FC<StatsProps> = ({ whoseSide, children }) => {
           )}
         </div>
       </div>
-      {/* current opponent's score */}
+      {/* current score */}
       <div className="current-score">
         <span>Round score : </span>
         <span>{roundScore}</span>
       </div>
 
-      <div>
+      <div className="isPass">
         <span>--- {isPass}</span>
       </div>
       {children}

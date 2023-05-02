@@ -1,11 +1,28 @@
+@import "../constants.css";
+
 #main {
-  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column;
+  max-width: 360px;
+  overflow: hidden;
 }
-.rules-button {
+#main h1 {
+  margin: 0 0;
   text-align: center;
-  padding: 45px;
-  color: aliceblue;
+  width: 240px;
+  color: var(--text-color-light);
+  text-shadow: 1px 0px 2px #00000073, 0 -3px 2px #00000075,
+    4px 0px 2px #00000082, 0px -1px 2px #0000007d;
+}
+.main-buttons {
+  display: flex;
+  text-align: center;
+  padding: 15px;
+  color: var(--text-color-light);
+}
+.main-buttons img {
+  /* padding: 5px; */
+  margin: 5px;
 }
