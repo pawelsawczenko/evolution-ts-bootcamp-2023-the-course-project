@@ -2,9 +2,9 @@
 
 Deployed: [Gwent-based card game](https://gwent-based-game-bootcamp-2023.netlify.app)
 
-![flowchart](initial-flowchart.png)
-
 *Initial idea. Flowcart of basic structure of the app*
+
+![flowchart](initial-flowchart.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
