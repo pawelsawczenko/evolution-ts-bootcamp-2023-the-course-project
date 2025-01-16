@@ -2,7 +2,7 @@
 
 Deployed: [Gwent-based card game](https://gwent-based-game-bootcamp-2023.netlify.app)
 
-[flowchart](initial-flowchart.png)
+![flowchart](initial-flowchart.png)
 
 *Initial idea. Flowcart of basic structure of the app*
 
